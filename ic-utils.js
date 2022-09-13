@@ -604,7 +604,7 @@ exports.getInterfaceTranslation = function(str, lang, return_missing_key){
 }
 
 exports.getAvailableLanguages = function(){
-	return Object.keys(interfaceTranslationTable)
+	return Object.keys(interfaceTranslationTable).map( k => k.toLowerCase())
 }
 
 exports.updateInterfaceTranslations = async function(sheet_id, api_key) {
