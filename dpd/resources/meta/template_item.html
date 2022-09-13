@@ -25,7 +25,12 @@
 		<meta property="og:image" 		content="<%= image %>" />
 		<meta property="og:description"	content="<%= description %>" />
 		<meta property="og:site_name" 	content="<%= site.title %>" />
-		<meta property="og:url" 		content="<%= url %>" />
+		<meta property="og:url" 		content="<%= url %>/l/<%= lang %>" />
+
+		<% languages.forEach(function(language){ %>
+			<link rel="alternate" href="<%- url% >/l/<%- language %>" hreflang="<$-" />
+		<% }); %>
+		<link rel="alternate" href="<%- url% >" hreflang="x-default" />
 	</head>
 
 	<body>
