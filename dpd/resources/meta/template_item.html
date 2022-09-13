@@ -28,7 +28,7 @@
 		<meta property="og:url" 		content="<%= url %>/l/<%= lang %>" />
 
 		<% languages.forEach(function(language){ %>
-			<link rel="alternate" href="<%- url %>/l/<%- language %>" hreflang="<$- language %>" />
+			<link rel="alternate" href="<%- url %>/l/<%- language %>" hreflang="<%- language %>" />
 		<% }); %>
 		<link rel="alternate" href="<%- url %>" hreflang="x-default" />
 			
