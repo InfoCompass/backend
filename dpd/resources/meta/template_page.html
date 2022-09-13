@@ -4,7 +4,7 @@
 	<head>
 		<title><%= title %></title>		
 		<% languages.forEach(function(language){ %>
-			<link rel="alternate" href="<%- url% >/l/<%- language %>" hreflang="<$-" />
+			<link rel="alternate" href="<%- url% >/l/<%- language %>" hreflang="<$- language %>" />
 		<% }); %>
 		<link rel="alternate" href="<%- url% >" hreflang="x-default" />		
 	</head>
