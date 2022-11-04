@@ -33,7 +33,6 @@ export class Nominatim {
 
 	async getCoordinates(request){
 
-		console.log('RQUEST NOMINATIM', request)
 
 		await this.validateRequest(request)
 
@@ -51,7 +50,6 @@ export class Nominatim {
 									const params 	= new URLSearchParams({...queries, state})
 									const url		= `${base}?${params}`
 
-									console.log(url)
 
 									const response	= await fetch(url)
 									
@@ -65,8 +63,6 @@ export class Nominatim {
 		const results 	= 	data.flat()
 							.filter( result => result.address.postcode == request.postalcode) 
 							.map( ({lat, lon, display_name }) => ({lat,lon, display_name}))
-
-		console.log(results)
 
 		return results
 	}
