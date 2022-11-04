@@ -117,8 +117,6 @@ app.get('/items/export/:lang/csv', handle( async (req, res) => {
 									}))
 
 app.get('/geo-guess',				handle( async( req, res) => {
-										console.log(req.query)
-										console.log('\n\n')
 										res.status(200).send( await nominatim.getCoordinates(req.query))
 									}))
 
