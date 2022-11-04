@@ -117,7 +117,14 @@ app.get('/items/export/:lang/csv', handle( async (req, res) => {
 									}))
 
 app.get('/geo-guess',				handle( async( req, res) => {
-										res.status(200).send( await nominatim.getCoordinates(req.query))
+
+										await nominatim.validateRequest(req.query)
+										.then(
+											() 		=> res.status(200).send( await nominatim.getCoordinates(req.query)),
+											reason 	=> res.status(400).send(reason)
+										)
+
+										
 									}))
 
 if(voiceReaderConfig){
