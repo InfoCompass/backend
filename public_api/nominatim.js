@@ -61,8 +61,10 @@ export class Nominatim {
 									return response.json()
 								})
 
-		const data 		= await Promise.all(searchResults)
-		const results 	= data.flat().filter( result => result.address.postcode == request.postalcode) 
+		const data 		= 	await Promise.all(searchResults)
+		const results 	= 	data.flat()
+							.filter( result => result.address.postcode == request.postalcode) 
+							.map( {lat, lon, display_name } => ({lat,lon, display_name}))
 
 		console.log(results)
 
