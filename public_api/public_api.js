@@ -116,8 +116,9 @@ app.get('/items/export/:lang/csv', handle( async (req, res) => {
 										res.status(200).send (await itemExporter.getCsvFile(__dirname, req.params.lang) )	
 									}))
 
-app.get('/geo-guess',				handle( async( req, res) => {
-										res.status(200).send( await nominatim.getCoordinates(req.params))
+app.get('/geo-guess',				jsonParser,
+									handle( async( req, res) => {
+										res.status(200).send( await nominatim.getCoordinates(req.body))
 									}))
 
 if(voiceReaderConfig){
