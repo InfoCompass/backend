@@ -1,0 +1,15 @@
+<!doctype html>
+
+<html>
+	<head>
+		<title><%= title %></title>		
+		<% languages.forEach(function(language){ %>
+			<link rel="alternate" href="<%- url %>/l/<%- language %>" hreflang="<%- language %>" />
+		<% }); %>
+		<link rel="alternate" href="<%- url %>" hreflang="x-default" />		
+	</head>
+
+	<body>
+		<%- content %>
+	</body>
+</html>

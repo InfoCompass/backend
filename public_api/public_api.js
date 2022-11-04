@@ -4,8 +4,10 @@ import	{ ItemImporter				}	from './items.js'
 import	{ VoiceReader				}	from './voice-reader.js'
 import	{ ItemExporter				}	from './export.js'
 import	{ Translator				}	from './translations.js'
+import	{ Nominatim					}	from './nominatim.js'
 import	{ fileURLToPath				}	from 'url'
 import  { config                    }	from '../config/index.js'
+
 
 import	icUtils							from '../ic-utils.js'
 import	path							from 'path'
@@ -49,6 +51,11 @@ const voiceReader		=	voiceReaderConfig && new VoiceReader({
 								itemConfig
 							})
 
+const nominatim			=	new Nominatim({
+								city: undefined, 
+								country: 'Germany', 
+								state: ['Berlin', 'Brandenburg']
+							})
 
 const force_remote_item_update = 	!!process.argv.find( arg => arg.match(/--force-remote-item-update/) )
 
@@ -87,6 +94,8 @@ function handle(fn){
 
 checkPublicApiConfig(publicApiConfig)
 
+
+
 app.use(function(req, res, next) {
 	res.header('Access-Control-Allow-Credentials', 	true)
 	res.header('Access-Control-Allow-Origin', 		req.headers.origin)
@@ -110,6 +119,16 @@ app.get('/items/export/:lang/csv', handle( async (req, res) => {
 										res.setHeader('Content-Type', 'text/csv; charset=utf-8')
 										res.setHeader('content-disposition', "attachment; filename=\"" + itemExporter.getCsvFilename(req.params.lang) )
 										res.status(200).send (await itemExporter.getCsvFile(__dirname, req.params.lang) )	
+									}))
+
+app.get('/geo-guess',				handle( async( req, res) => {
+
+										await	nominatim.validateRequest(req.query)
+												.then(
+													async ()	=> res.status(200).send( await nominatim.getCoordinates(req.query) ),
+													error 		=> res.status(400).send({error: error.message})
+												)
+
 									}))
 
 if(voiceReaderConfig){

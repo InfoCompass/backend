@@ -589,6 +589,10 @@ exports.getInterfaceTranslation = function(str, lang, return_missing_key){
 	return path.reduce( (acc, section) => acc && acc[section] ,interfaceTranslationTable[lang]) || (return_missing_key ? str : undefined)
 }
 
+exports.getAvailableLanguages = function(){
+	return Object.keys(interfaceTranslationTable).map( k => k.toLowerCase())
+}
+
 exports.updateInterfaceTranslations = async function(sheet_id, api_key) {
 
 	const sheets 	= await exports.fetchGoogleSheets(sheet_id, api_key)
