@@ -31,7 +31,7 @@ export class Nominatim {
 
 	async getCoordinates(request){
 
-		console.log('RQUEST NOMINATIM', reqeust)
+		console.log('RQUEST NOMINATIM', request)
 
 		await this.validateRequest(request)
 
