@@ -26,7 +26,7 @@ export class Nominatim {
 	// check if a request is within the restrictions
 	async validateRequest(request){
 		if(!request.city) 			throw new Error("missing city")
-		if(!request.steet) 			throw new Error("missing street")
+		if(!request.street) 		throw new Error("missing street")
 		if(!request.postalcode) 	throw new Error("missing postalcode")
 		if(this.restrictions.city && !this.restrictions.citytoUpperCase != request.city.toUpperCase() ) throw new Error("city restrictions unmet")
 	}
