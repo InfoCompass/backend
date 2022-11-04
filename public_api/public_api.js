@@ -121,7 +121,7 @@ app.get('/geo-guess',				handle( async( req, res) => {
 										await	nominatim.validateRequest(req.query)
 												.then(
 													async ()	=> res.status(200).send( await nominatim.getCoordinates(req.query) ),
-													reason 		=> res.status(400).send(reason)
+													error 		=> res.status(400).send({error})
 												)
 
 									}))
