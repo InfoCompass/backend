@@ -1,4 +1,4 @@
-cancelUnless(internal || me && (this.user == me.id) || this.public, "Unauthorized", 401)
+cancelUnless(internal || me , "Unauthorized", 401)
 
 this.items = this.items || []
 
