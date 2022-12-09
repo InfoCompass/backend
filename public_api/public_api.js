@@ -5,6 +5,7 @@ import	{ VoiceReader				}	from './voice-reader.js'
 import	{ ItemExporter				}	from './export.js'
 import	{ Translator				}	from './translations.js'
 import	{ Nominatim					}	from './nominatim.js'
+import	{ Locator					}	from './geo-locator.js'
 import	{ fileURLToPath				}	from 'url'
 import  { config                    }	from '../config/index.js'
 
@@ -31,12 +32,23 @@ const publicApiConfig	=	config.publicApi
 const voiceReaderConfig	=	config.voiceReader
 const translationKeys	=	(({googleTranslateApiKey, deepLApiKey}) => ({googleTranslateApiKey, deepLApiKey}))(config)
 
+const nominatim			=	new Nominatim(
+								{
+									city: undefined, 
+									country: 'Germany', 
+									state: ['Berlin', 'Brandenburg']
+								},
+								config.frontendUrl
+							)
+
 const translator		=	new Translator(db, translationKeys)
+const locator			=	new Locator(db, nominatim)
 
 const itemImporter		=	new ItemImporter({
 								db,
 								publicApiConfig,
 								translator,
+								locator,
 								itemConfig
 							})
 
@@ -51,11 +63,6 @@ const voiceReader		=	voiceReaderConfig && new VoiceReader({
 								itemConfig
 							})
 
-const nominatim			=	new Nominatim({
-								city: undefined, 
-								country: 'Germany', 
-								state: ['Berlin', 'Brandenburg']
-							})
 
 const force_remote_item_update = 	!!process.argv.find( arg => arg.match(/--force-remote-item-update/) )
 

@@ -1,12 +1,16 @@
 import	sanitizeHtml 				from 'sanitize-html'
+import	icUtils						from '../ic-utils.js'
+
+const { mailToAdmin }	=	icUtils
 
 
 export class ItemImporter {
 
-	constructor({db, publicApiConfig, translator, itemConfig}){
+	constructor({db, publicApiConfig, translator, locator, itemConfig}){
 		this.db 				= db
 		this.publicApiConfig 	= publicApiConfig
 		this.translator			= translator
+		this.locator			= locator
 		this.itemConfig			= itemConfig
 	}
 
@@ -32,8 +36,8 @@ export class ItemImporter {
 
 	wrapFailure(key){
 		return	reason	=> {
-					console.log(reason)
-					this.wrapResult(key, 'failed', String(reason), [])
+					console.error(reason)
+					return this.wrapResult(key, 'failed', String(reason), [])
 				}
 	}
 
@@ -110,7 +114,7 @@ export class ItemImporter {
 
 	async invokeImportScript(key, force_update_items){
 
-		console.log("Public item config for:", key, this.publicApiConfig[key])
+		console.log("Public item config for:", key, this.publicApiConfig.remoteItems[key])
 
 		const config			=	this.publicApiConfig.remoteItems[key]
 		const importModule 		= 	await import(`./import/${config.script}`)
@@ -167,7 +171,8 @@ export class ItemImporter {
 									})							
 		
 		await this.db.collection(`remote-items-${key}`).drop().catch( error => error.code == 26 ? Promise.resolve : Promise.reject(error)) //ignore error if collection does not yet exists
-		await this.db.collection(`remote-items-${key}`).insertMany(projectedItems)
+		
+		if(projectedItems.length > 0) await this.db.collection(`remote-items-${key}`).insertMany(projectedItems)
 
 		this.remoteMeta.updateOne({ key }, {$set: { version: remoteVersion } }, { upsert: true })									
 
@@ -177,8 +182,6 @@ export class ItemImporter {
 
 
 	mergeResults(results){
-
-		console.log('Merging results:')
 
 		return 	{
 					results: 	results
@@ -204,21 +207,56 @@ export class ItemImporter {
 		return await Promise.all(  items.map( item => this.translateItem(item, key) ) ) 
 	}
 
+	async locateItem(item, key){
+		return await this.locator.locateItem(item, key)
+	}
+
+	async locateItems(items, key){
+
+		// Locate as many items as possible until timeout.
+
+		const timeout		= 8 * 1000
+		const start			= Date.now()
+
+
+		await items.reduce( (last, item, index) => {
+
+
+			return last.then( () => {
+
+				const now = Date.now()
+
+				if(now-start > timeout) return null
+
+				return this.locateItem(item, key) 
+
+			})
+
+
+		}, Promise.resolve())
+		.catch( e => mailToAdmin(e))   
+	
+		return items	
+	}
+
 	async getRemoteItems(force_update_items){
 	
-		const remoteItemsConfig = this.publicApiConfig.remoteItems
+		
+
+		const remoteItemsConfig = this.publicApiConfig.remoteItems		
 
 		if(!remoteItemsConfig) return this.wrapResult('unknown', 'failed', 'missing remote item config', [])
+
+
 
 		const results	= 	await	Promise.all(
 										Object.entries(remoteItemsConfig)
 										.map( 
 											([key, config]) =>	this.invokeImportScript(key, force_update_items) 
 																.then( items => this.translateItems(items, key) )
-																.then(
-																	this.wrapSuccess(key),
-																	this.wrapFailure(key)
-																)
+																.then( items => this.locateItems(items, key) )
+																.then( this.wrapSuccess(key) )
+																.catch( this.wrapFailure(key) )
 										)				
 									)		
 

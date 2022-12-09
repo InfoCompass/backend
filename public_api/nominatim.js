@@ -1,8 +1,9 @@
 import fetch from 'node-fetch'
 
+
 export class Nominatim {
 
-	constructor(restrictions){
+	constructor(restrictions, referer){
 
 		this.defaultRestrictions = {
 			city: undefined,					// Requests for different cities will be denied. Ignored if undefined.
@@ -10,10 +11,18 @@ export class Nominatim {
 			state: ['Berlin', 'Brandenburg']	// Will make a specific request for every state. Ignored if undefined.
 		}
 
-		this.restrictions = {
-								...this.defaultRestrictions,
-								restrictions
-							}	
+		this.lastRequest	= 	Date.now()-1500 // for throttling requests; at most one request per second
+
+		this.restrictions 	= 	{
+									...this.defaultRestrictions,
+									restrictions
+								}	
+
+		if(!referer) throw new Error("Nominatim.constructor: missing referer.")
+
+		this.referer		= 	referer						
+
+
 
 		if(!this.restrictions.state) 		throw new Error("missing state restrictions")
 		if(!this.restrictions.state.length) throw new Error("missing state restrictions")
@@ -31,7 +40,29 @@ export class Nominatim {
 		if(this.restrictions.city && !this.restrictions.citytoUpperCase != request.city.toUpperCase() ) throw new Error("city restrictions unmet")
 	}
 
-	async getCoordinates(request){
+	async nominatimRequest(params){
+
+		const now			= Date.now()
+
+
+		if(now-this.lastRequest < 1000){
+			await new Promise( resolve => setTimeout(resolve, 1501) )
+			return await this.nominatimRequest(params)
+		}
+
+		this.lastRequest 	= now	
+
+
+		const base 			= 'https://nominatim.openstreetmap.org/search'
+		const url			= `${base}?${params}`
+		const headers		= {Referer: this.referer}
+
+		const response	= await fetch(url, {headers})
+
+		return response.json()
+	}
+
+	async getCoordinates(request, state = undefined){
 
 
 		await this.validateRequest(request)
@@ -46,17 +77,11 @@ export class Nominatim {
 								}
 
 		const searchResults = 	(this.restrictions.state || [undefined]).map( async state => {
-									const base 		= 'https://nominatim.openstreetmap.org/search'
-									const params 	= new URLSearchParams({...queries, state})
-									const url		= `${base}?${params}`
 
+									const params = new URLSearchParams({...queries, state})
 
-									const response	= await fetch(url)
+									return await this.nominatimRequest(params)
 									
-
-									if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-
-									return response.json()
 								})
 
 		const data 		= 	await Promise.all(searchResults)
