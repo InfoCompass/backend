@@ -84,7 +84,33 @@ export class Locator {
 			"Mauerstr. 6 13597 Berlin":									[52.53553,			13.20227],
 			"Prinzregentenstr. 33-34 10715 Berlin":						[52.48062,			13.33310],
 			"Prenzlauer Allee 227 10405 Berlin":						[52.53332,			13.42024],
-			"Hermannstr. 158 A (Eingang Arztpraxen) 12051 Berlin":		[51.324,			14.304]
+			"Hermannstr. 158 A (Eingang Arztpraxen) 12051 Berlin":		[51.324,			14.304],
+			"Alt-Mariendorf 43 (Hofeingang) 12107 Berlin":				[52.43957,			13.38548],
+			"Nehringstraße 8 14059 Berlin":								[52.51518,			13.29394],
+			"Ella-Barowsky-Str. 62, 10829 Berlin 10829 Berlin":			[52.47840,			13.35747],
+			"Geßlerstraße 11 10829 Berlin":								[52.48623,			13.36771],
+			"Hönower Str. 30a 10318 Berlin":							[52.48983,			13.52172],
+			"Bruno-Wille-Str. 37-45 12587 Berlin":						[52.4511,			13.6326],
+			"Wendenschloßstr. 404 12557 Berlin":						[52.42088,			13.58722],
+			"Fuchssteiner Weg 13 - 19, Hofeingang 13465 Berlin":		[52.63553,			13.29584],
+			"Romain-Rolland-Straße 112 13089 Berlin":					[52.57202,			13.43791],
+			"Martha-Arendsee-Str. 15 12681 Berlin":						[52.53668,			13.53880],
+			"Wiltbergstraße 19-23 13125 Berlin":						[52.63590,			13.49405],
+			"Belziger Straße 43-51 10823 Berlin":						[52.48551,			13.35034],
+			"Edgarstraße 2 13053 Berlin":								[52.55405,			13.51883],
+			"Barfussstraße 22-24 13349 Berlin":							[52.55847,			13.35288],
+			"Friedenstraße 23-25 12107 Berlin":							[52.43899,			13.38462],
+			"Barnetstraße 11 12305 Berlin":								[52.39436,			13.40584],
+			"Nürnberger Straße 63 (durch Toreinfahrt) 10787 Berlin":	[52.50339,			13.34111],
+			"Ringstraße 103-106 12105 Berlin":							[52.44719,			13.36497],
+			"Murtzaner Ring 35-37 12681 Berlin":						[52.52971,			13.54247],
+			"Hofeingang gegenüber Stolbergstr 5L 12103 Berlin":			[52.46527,			13.37995],
+			"Mehringdamm 59 10961 Berlin":								[52.49091,			13.38728],
+			"Mörikestraße 15 12437 Berlin":								[52.46501,			13.48417],
+			"Markgrafenstr. 19-24 12105 Berlin":						[52.45005,			13.38183],
+			"Alt-Hermsdorf 35 13467 Berlin":							[52.61546,			13.31868],
+			"Brandenburgische Str. 51 10707 Berlin":					[52.49400,			13.30910]
+
 		}
 
 		// const firstHit 	= results[0]

@@ -218,6 +218,7 @@ export class ItemImporter {
 		const timeout		= 8 * 1000
 		const start			= Date.now()
 
+		const errors		= []
 
 		await items.reduce( (last, item, index) => {
 
@@ -228,13 +229,22 @@ export class ItemImporter {
 
 				if(now-start > timeout) return null
 
-				return this.locateItem(item, key) 
+				return this.locateItem(item, key).catch( e => errors.push(e) )
 
 			})
 
 
 		}, Promise.resolve())
-		.catch( e => mailToAdmin(e))   
+		
+		if(errors.length){
+
+			const messages 			= errors.map(e => e.message)
+			const uniqueMessages 	= Array.from ( new Set(messages) )
+			const combinded			= uniqueMessages.join('\n')
+
+			console.log(combinded)
+			mailToAdmin(combinded)
+		}
 	
 		return items	
 	}
