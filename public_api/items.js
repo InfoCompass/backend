@@ -176,8 +176,6 @@ export class ItemImporter {
 
 		this.remoteMeta.updateOne({ key }, {$set: { version: remoteVersion } }, { upsert: true })									
 
-		console.log(projectedItems[0])
-
 		return projectedItems
 	}
 
