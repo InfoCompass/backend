@@ -182,8 +182,6 @@ export async function getRemoteItems(config){
 
 									const id				=	`${course.guid}${course.nummer}`.replace(/[^a-zA-Z0-9]/g,'_')
 
-									const type				=	'service'
-
 									const title 			= 	cleanString(course.name)
 									const brief				= 	{ de:"Kurs an der Volkshochschule (VHS)" }
 									const description		= 	{ 
@@ -225,6 +223,8 @@ export async function getRemoteItems(config){
 
 									const charge			=	{de: getCharge(course)}
 
+									// adding type:
+									tags.push('service')
 
 									return 	{
 												id, 
