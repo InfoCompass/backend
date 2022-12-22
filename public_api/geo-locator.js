@@ -84,7 +84,7 @@ export class Locator {
 			"Mauerstr. 6 13597 Berlin":									[52.53553,			13.20227],
 			"Prinzregentenstr. 33-34 10715 Berlin":						[52.48062,			13.33310],
 			"Prenzlauer Allee 227 10405 Berlin":						[52.53332,			13.42024],
-			"Hermannstr. 158 A (Eingang Arztpraxen) 12051":				[51.324,			14.304]
+			"Hermannstr. 158 A (Eingang Arztpraxen) 12051 Berlin":		[51.324,			14.304]
 		}
 
 		// const firstHit 	= results[0]
