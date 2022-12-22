@@ -269,7 +269,6 @@ export class ItemImporter {
 										)				
 									)		
 
-	console.log('##', results[0].items[0])
 
 		return this.mergeResults(results)
 	}
