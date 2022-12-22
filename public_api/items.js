@@ -176,6 +176,7 @@ export class ItemImporter {
 
 		this.remoteMeta.updateOne({ key }, {$set: { version: remoteVersion } }, { upsert: true })									
 
+		console.log(projectedItems[0])
 
 		return projectedItems
 	}
@@ -250,8 +251,6 @@ export class ItemImporter {
 	}
 
 	async getRemoteItems(force_update_items){
-	
-		
 
 		const remoteItemsConfig = this.publicApiConfig.remoteItems		
 
@@ -269,6 +268,8 @@ export class ItemImporter {
 																.catch( this.wrapFailure(key) )
 										)				
 									)		
+
+	console.log('##', results[0].items[0])
 
 		return this.mergeResults(results)
 	}
