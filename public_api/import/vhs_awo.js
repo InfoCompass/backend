@@ -228,7 +228,6 @@ export async function getRemoteItems(config){
 
 									return 	{
 												id, 
-												type,
 												title, 
 												tags, 
 												primaryTopic, 
