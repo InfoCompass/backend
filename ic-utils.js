@@ -303,8 +303,8 @@ exports.mailBodyChanges = function(suggestion, target, lang){
 	let content = ''
 
 
-	const properties_wo_editindNote = itemConfig.properties.filter( property => property.name != "itemConfig.properties")
-	const editingNote				= itemConfig.properties.filter( property => property.name == "itemConfig.properties")
+	const properties_wo_editindNote = itemConfig.properties.filter( property => property.name != "editingNote")
+	const editingNote				= itemConfig.properties.filter( property => property.name == "editingNote")
 	const properties				= [...editingNote, ...properties_wo_editindNote]
 
 	properties.forEach(function(property){
