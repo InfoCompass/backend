@@ -28,7 +28,7 @@ var properties_to_translate = 	req.properties && req.properties.length
 				?	req.properties
 				:	icItemConfig.properties
 					.filter( property_obj =>  property_obj.translatable)
-					.filter( property_obj => !property_obj.preventAutomaticTranslation)
+					.filter( property_obj =>  property_obj.autoTranslate)
 					.map( property_obj => property_obj.name)
 
 if(properties_to_translate.length == 0){
