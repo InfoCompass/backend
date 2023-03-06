@@ -25,10 +25,11 @@ $addCallback()
 
 
 var properties_to_translate = 	req.properties && req.properties.length
-								?	req.properties
-								:	icItemConfig.properties
-									.filter( property_obj => property_obj.translatable)
-									.map( property_obj => property_obj.name)
+				?	req.properties
+				:	icItemConfig.properties
+					.filter( property_obj =>  property_obj.translatable)
+					.filter( property_obj => !property_obj.preventAutomaticTranslation)
+					.map( property_obj => property_obj.name)
 
 if(properties_to_translate.length == 0){
 	$finishCallback()
