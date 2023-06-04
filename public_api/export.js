@@ -42,7 +42,7 @@ export class ItemExporter {
 	}
 
 
-	getCsvColumns(lang, av_langs, {properties, tagGroups, taxonomy}){
+	getCsvColumns(lang, av_langs, {properties, tagGroups, taxonomy, link}){
 		const columns = []
 
 		columns.push({
@@ -164,6 +164,13 @@ export class ItemExporter {
 											.map(		tag => 	this.translate(`UNSORTED_TAGS.${tag}`, lang, false) || this.optionLabels.getLabel(tag) || tag )
 											.join(', ')
 				})			
+			})
+		}
+
+		if(link){
+			columns.push({
+				label: 		'url',
+				content: 	(item) => icUtils.config.frontendUrl+"/item/"+item.id),	
 			})
 		}
 
