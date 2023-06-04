@@ -303,11 +303,10 @@ exports.mailBodyChanges = function(suggestion, target, lang){
 	let content = ''
 
 
-	const editingNote				= itemConfig.properties.filter( property => property.name == "editingNote")
-	const type						= itemConfig.properties.filter( property => property.name == "type")
+	const editingNote				= itemConfig.properties.filter( property => property.name == "editingNote")	
 	const hours						= itemConfig.properties.filter( property => property.name == "hours")
-	const properties_ex 			= itemConfig.properties.filter( property => !["editingNote", "hours", "type"].includes(property.name) )
-	const properties				= [...editingNote, ...type, ...hours,  ...properties_ex]
+	const properties_ex 			= itemConfig.properties.filter( property => !["editingNote", "hours"].includes(property.name) )
+	const properties				= [...editingNote, ...hours,  ...properties_ex]
 
 	properties.forEach(function(property){
 
