@@ -170,7 +170,7 @@ export class ItemExporter {
 		if(link){
 			columns.push({
 				label: 		'url',
-				content: 	(item) => icUtils.config.frontendUrl+"/item/"+item.id),	
+				content: 	(item) => icUtils.config.frontendUrl+"/item/"+item.id)
 			})
 		}
 
