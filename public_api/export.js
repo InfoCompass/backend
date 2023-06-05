@@ -50,6 +50,13 @@ export class ItemExporter {
 			content: 	(item) => item._id
 		})
 
+		if(link){
+			columns.push({
+				label: 		'url',
+				content: 	(item) => icUtils.config.frontendUrl+"/item/"+item._id
+			})
+		}
+
 		properties 	= Array.isArray(properties)	? properties 	: []
 		tagGroups	= Array.isArray(tagGroups)	? tagGroups		: []
 
@@ -167,12 +174,7 @@ export class ItemExporter {
 			})
 		}
 
-		if(link){
-			columns.push({
-				label: 		'url',
-				content: 	(item) => icUtils.config.frontendUrl+"/item/"+item.id
-			})
-		}
+		
 
 		// tags.forEach( tag => {
 
