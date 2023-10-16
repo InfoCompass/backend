@@ -157,8 +157,9 @@ export async function getRemoteItems(config){
 								})
 
 	const locations			=	relevantCourses
-								.map( course => course.veranstaltungsort.adresse)
-								.map( ort => `${ort.strasse} ${ort.plz} ${ort.ort}`)
+								.filter(	course 	=> course.veranstaltungsort)
+								.map( 		course 	=> course.veranstaltungsort.adresse)
+								.map( 		ort 	=> `${ort.strasse} ${ort.plz} ${ort.ort}`)
 
 
 	console.log('Number of relevant courses:', relevantCourses.length )			
@@ -223,8 +224,6 @@ export async function getRemoteItems(config){
 
 									const charge			=	{de: getCharge(course)}
 
-									// adding type:
-									tags.push('service')
 
 									return 	{
 												id, 
