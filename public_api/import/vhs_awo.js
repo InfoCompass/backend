@@ -205,13 +205,19 @@ export function getDescription(course){
 }
 
 export function getHours(course){
-	const combined 	= course.ortetermine
 
-	if(!combined) return ''
+	const combined 	= 	course.ortetermine 
+						||
+						{
+							termin:{
+								begin_datum: course.beginn_datum,
+								ende_datum:	 course.ende_datum
+							}
+						}
 
 	const locationData 	= 	Array.isArray(combined.adresse)
-							?	combined.adresse
-							:	[combined.adresse]
+							?	combined.adresse || {}
+							:	[combined.adresse || {}]
 
 	const dates 		= 	Array.isArray(combined.termin)
 							?	combined.termin
@@ -344,7 +350,7 @@ export async function getRemoteItems(config){
 									const locations			=	getLocations(course)
 
 									return 	locations.map( (loc,index) => ({
-												id:			`${course.guid}${course.nummer}${index}`.replace(/[^a-zA-Z0-9]/g,'_')id, 
+												id:			`${course.guid}${course.nummer}${index}`.replace(/[^a-zA-Z0-9]/g,'_'), 
 												title, 
 												tags, 
 												primaryTopic, 
