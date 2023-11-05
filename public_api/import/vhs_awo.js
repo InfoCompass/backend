@@ -14,6 +14,22 @@ export async function getRemoteVersion(config){
 	return headers.get('Last-Modified')
 }
 
+export function getType(course){
+
+	if(course.veranstaltungsart === 'Kurs')								return 'service'
+	if(course.veranstaltungsart === 'Bildungsurlaub/Vortrag') 			return 'service'
+	if(course.veranstaltungsart === 'Einzelveranstaltung/Vortrag') 		return 'event'
+
+	const fallback = 'service'
+
+	if(!course.ortetermine)							return fallback
+	if(!course.ortetermine.termin)					return fallback	
+	if(Array.isArray(course.ortetermine.termin))	return 'service'	
+	if(Array.isArray(course.ortetermine.adresse))	return 'service'	
+
+	return fallback	
+
+}
 
 export function getAllCategories(tags = []){
 
@@ -229,7 +245,7 @@ export function getHours(course){
 
 								return `${dateLine}, ${timeLine} (${locationLine})`
 							})
-	return lines.join('\n')
+	return { de: lines.join('\n') }
 }
 
 export async function getRemoteItems(config){	
@@ -263,7 +279,6 @@ export async function getRemoteItems(config){
 
 
 	//check for categories:
-
 	relevantCourses.forEach(course => {
 		const allCategories 	= getAllCategories(course.schlagwort)
 		const mainCategories	= getMainCategories(course.schlagwort)
@@ -299,10 +314,20 @@ export async function getRemoteItems(config){
 									const allCategories 	= 	getAllCategories(course.schlagwort)
 									const mainCategories	= 	getMainCategories(course.schlagwort)						
 
+									const type				=	getType(course)
 
-									const tags				=	allCategories.length > 0
-																?	allCategories
-																:	['misc_category']
+									const tags				=	[
+																	...(	
+																		allCategories.length > 0
+																		?	allCategories
+																		:	['misc_category']
+																	),
+																	...(
+																		type
+																		?	[type]
+																		:	[]
+																	)
+																]
 
 									const primaryTopic		=	mainCategories[0] || 'misc_category'
 									
