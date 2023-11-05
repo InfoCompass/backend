@@ -292,8 +292,6 @@ export async function getRemoteItems(config){
 
 	const items				=	relevantCourses.map( course => {
 
-									const id				=	`${course.guid}${course.nummer}`.replace(/[^a-zA-Z0-9]/g,'_')
-
 									const title 			= 	cleanString(course.name)
 									const brief				= 	{ de:"Kurs an der Volkshochschule (VHS)" }
 									const description		= 	getDescription(course)
@@ -345,8 +343,8 @@ export async function getRemoteItems(config){
 
 									const locations			=	getLocations(course)
 
-									return 	locations.map( loc => ({
-												id, 
+									return 	locations.map( (loc,index) => ({
+												id:			`${course.guid}${course.nummer}${index}`.replace(/[^a-zA-Z0-9]/g,'_')id, 
 												title, 
 												tags, 
 												primaryTopic, 
