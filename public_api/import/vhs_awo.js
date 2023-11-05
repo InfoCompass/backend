@@ -382,18 +382,18 @@ export async function getRemoteItems(config){
 }
 
 
-const config = 	{
-						"sourceName":   "Volkshochschule",
-						"sourceUrl":    "https://www.vhsit.berlin.de/VHSKURSE/OpenData/Kurse.json",
-						"url":          "https://www.vhsit.berlin.de/VHSKURSE/OpenData/Kurse.json",
-						"baseLanguage": "de",
-						"targetLanguages": [],
-						"script":       "vhs_awo.js"
-				}
+// const config = 	{
+// 						"sourceName":   "Volkshochschule",
+// 						"sourceUrl":    "https://www.vhsit.berlin.de/VHSKURSE/OpenData/Kurse.json",
+// 						"url":          "https://www.vhsit.berlin.de/VHSKURSE/OpenData/Kurse.json",
+// 						"baseLanguage": "de",
+// 						"targetLanguages": [],
+// 						"script":       "vhs_awo.js"
+// 				}
 
 
-getRemoteItems(config).then( items => {
+// getRemoteItems(config).then( items => {
 
-	console.log(items.slice(0,10))
+// 	console.log(items.slice(0,10))
 
-})
+// })
