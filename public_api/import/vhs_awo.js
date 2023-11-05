@@ -1,8 +1,8 @@
 import fetch 				from 'node-fetch'
 
-import {	Translator	}	from '../translations.js'
-
-
+function cleanString(x){
+	return String(x||'').trim() || undefined
+}
 
 export async function getRemoteVersion(config){
 
@@ -135,34 +135,131 @@ export function getCharge(course){
 }
 
 
+// one course can have multiple locations for various dates!
+export function getLocations(course){
+
+	const combined 			= 	course.ortetermine
+
+	if(!combined) return [undefined]
+
+	const locationData 		= 	Array.isArray(combined.adresse)
+								?	combined.adresse
+								:	[combined.adresse]
+
+	const locations			=	locationData.map( loc => ({
+									location:		loc.lehrstaette,
+									zip: 			loc.plz,
+									city:			loc.ort,
+									address:		loc.strasse,
+									longitude:		loc.laengengrad,
+									latitude:		loc.breitengrad,
+									accessibility:	loc.behindertenzugang
+													?	{de: 'Behindertenzugang'}
+													:	undefined
+								}))					
+
+	const uniqueLocations	= []
+
+	locations.forEach( loc => {
+		const existingLoc = 	uniqueLocations.find( uLoc => {
+
+									if(uLoc.address 	!= loc.address) 	return false
+									if(uLoc.zip 		!= loc.zip) 		return false
+									if(uLoc.city 		!= loc.city) 		return false
+
+									return true
+								})
+
+		if(!existingLoc) uniqueLocations.push(loc)
+	})
+
+	return uniqueLocations
+}
+
+export function getDescription(course){
+
+	const locations	=	 getLocations(course)
+
+	const de 		= 	(course.text || [])
+						.map( t => cleanString(t.text) || '' ) 
+						.join( '\n\n')					
+
+
+	return { de }
+}
+
+export function getHours(course){
+	const combined 	= course.ortetermine
+
+	if(!combined) return ''
+
+	const locationData 	= 	Array.isArray(combined.adresse)
+							?	combined.adresse
+							:	[combined.adresse]
+
+	const dates 		= 	Array.isArray(combined.termin)
+							?	combined.termin
+							:	[combined.termin]
+
+	const lines			=	dates.map( (date, index) => {
+
+								if(!date) console.log(combined)
+
+								const dateObj		= 	new Date(date.beginn_datum)
+
+								const dateLine		= 	isNaN(dateObj)
+														?	`${date.wochentag}, ${date.beginn_datum}`
+														:	new Intl.DateTimeFormat('de',{
+																weekday: 'short',
+																year: 'numeric',
+																month: 'numeric',
+																day: 'numeric',
+															}).format(dateObj)
+
+								const timeLine		=	`${date.beginn_uhrzeit} – ${date.ende_uhrzeit}`					
+
+								const location		=	locationData[index]
+
+								const locationLine	=	location
+														?	[location.lehrstaette, location.raum, location.strasse]
+															.filter( x => !!x)
+															.join(', ')
+														:	''
+
+
+								return `${dateLine}, ${timeLine} (${locationLine})`
+							})
+	return lines.join('\n')
+}
 
 export async function getRemoteItems(config){	
 
-	function cleanString(x){
-		return String(x||'').trim() || undefined
-	}
+	
 
 
 	const data 				= 	await fetch( config.url )
 								.then( response => { console.log('Fetched VHS data'); return response })
 								.then( response => response.json() )
 	
+	// data is huge! > 45 mb
+
 	const courses 			= 	data && data.veranstaltungen && data.veranstaltungen.veranstaltung
+
 	const relevantCourses 	= 	courses.filter( course => {
 
 									const schlagwort 	= Array.isArray(course.schlagwort) && course.schlagwort.some( tag => tag.match(/Senior/i) ) 
-									const zielgruppe	= course.zielgruppe && course.zielgruppe.match(/(Senior)|(Ältere)/i)
+									const zielgruppe	= typeof course.zielgruppe === 'string' && course.zielgruppe.match(/(Senior)|(Ältere)/i)
 
 									return schlagwort || zielgruppe	
 								})
 
-	const locations			=	relevantCourses
-								.filter(	course 	=> course.veranstaltungsort)
-								.map( 		course 	=> course.veranstaltungsort.adresse)
-								.map( 		ort 	=> `${ort.strasse} ${ort.plz} ${ort.ort}`)
-
 
 	console.log('Number of relevant courses:', relevantCourses.length )			
+
+	const locations 			= 	relevantCourses
+									.map( course => getLocations(course) )
+									.flat()
+	
 
 
 	//check for categories:
@@ -178,24 +275,21 @@ export async function getRemoteItems(config){
 
 	})
 
-
 	const items				=	relevantCourses.map( course => {
 
 									const id				=	`${course.guid}${course.nummer}`.replace(/[^a-zA-Z0-9]/g,'_')
 
 									const title 			= 	cleanString(course.name)
 									const brief				= 	{ de:"Kurs an der Volkshochschule (VHS)" }
-									const description		= 	{ 
-																	de: (course.text || [])
-																		.map( t => cleanString(t.text) || '' ) 
-																		.join( '\n\n')
-																}
+									const description		= 	getDescription(course)
 									const location_ref		=	undefined
 									const location			=	cleanString(course.veranstaltungsort && course.veranstaltungsort.name) 		|| undefined
 									const address			=	cleanString(course.veranstaltungsort && course.veranstaltungsort.adresse && course.veranstaltungsort.adresse.strasse) 	|| undefined
 									const city				=	cleanString(course.veranstaltungsort && course.veranstaltungsort.adresse && course.veranstaltungsort.adresse.ort) 		|| undefined
 									const zip				=	cleanString(course.veranstaltungsort && course.veranstaltungsort.adresse && course.veranstaltungsort.adresse.plz) 		|| undefined	
 									
+									const hours				=	getHours(course)
+
 									const website			= 	cleanString(course.webadresse && course.webadresse.uri) || undefined	
 
 									const remoteItem		=	{
@@ -224,26 +318,24 @@ export async function getRemoteItems(config){
 
 									const charge			=	{de: getCharge(course)}
 
+									const locations			=	getLocations(course)
 
-									return 	{
+									return 	locations.map( loc => ({
 												id, 
 												title, 
 												tags, 
 												primaryTopic, 
 												brief, 
-												description, 
-												location, 
-												address, 
-												city, 
-												zip, 
+												description, 												 
 												website, 
 												remoteItem, 
 												tags, 
 												primaryTopic,
-												charge
-
-											}
-								})
+												charge,
+												hours,
+												...(loc||{})
+											}))
+								}).flat()
 
 
 
@@ -251,3 +343,20 @@ export async function getRemoteItems(config){
 	
 	return items 
 }
+
+
+// const config = 	{
+// 						"sourceName":   "Volkshochschule",
+// 						"sourceUrl":    "https://www.vhsit.berlin.de/VHSKURSE/OpenData/Kurse.json",
+// 						"url":          "https://www.vhsit.berlin.de/VHSKURSE/OpenData/Kurse.json",
+// 						"baseLanguage": "de",
+// 						"targetLanguages": [],
+// 						"script":       "vhs_awo.js"
+// 				}
+
+
+// getRemoteItems(config).then( items => {
+
+// 	console.log(items.slice(0,10))
+
+// })
