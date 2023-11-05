@@ -210,8 +210,8 @@ export function getHours(course){
 						||
 						{
 							termin:{
-								begin_datum: course.beginn_datum,
-								ende_datum:	 course.ende_datum
+								beginn_datum:	course.beginn_datum,
+								ende_datum:		course.ende_datum
 							}
 						}
 
@@ -238,7 +238,9 @@ export function getHours(course){
 																day: 'numeric',
 															}).format(dateObj)
 
-								const timeLine		=	`${date.beginn_uhrzeit} – ${date.ende_uhrzeit}`					
+								const timeLine		=	[date.beginn_uhrzeit, date.ende_uhrzeit]
+														.filter(x => !!x)					
+														.join(' – ')
 
 								const location		=	locationData[index]
 
@@ -248,9 +250,15 @@ export function getHours(course){
 															.join(', ')
 														:	''
 
+								const locationBracs	=	locationLine
+														?	`(${locationLine})`
+														:	''
 
-								return `${dateLine}, ${timeLine} (${locationLine})`
+								return `${dateLine}, ${timeLine} ${locationBracs}`
 							})
+
+	if(!course.ortetermine ) console.log(lines.join('\n'))
+
 	return { de: lines.join('\n') }
 }
 
@@ -374,18 +382,18 @@ export async function getRemoteItems(config){
 }
 
 
-// const config = 	{
-// 						"sourceName":   "Volkshochschule",
-// 						"sourceUrl":    "https://www.vhsit.berlin.de/VHSKURSE/OpenData/Kurse.json",
-// 						"url":          "https://www.vhsit.berlin.de/VHSKURSE/OpenData/Kurse.json",
-// 						"baseLanguage": "de",
-// 						"targetLanguages": [],
-// 						"script":       "vhs_awo.js"
-// 				}
+const config = 	{
+						"sourceName":   "Volkshochschule",
+						"sourceUrl":    "https://www.vhsit.berlin.de/VHSKURSE/OpenData/Kurse.json",
+						"url":          "https://www.vhsit.berlin.de/VHSKURSE/OpenData/Kurse.json",
+						"baseLanguage": "de",
+						"targetLanguages": [],
+						"script":       "vhs_awo.js"
+				}
 
 
-// getRemoteItems(config).then( items => {
+getRemoteItems(config).then( items => {
 
-// 	console.log(items.slice(0,10))
+	console.log(items.slice(0,10))
 
-// })
+})
