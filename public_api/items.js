@@ -85,13 +85,15 @@ export class ItemImporter {
 				}))			
 	}
 
-	sanatizeProperty(property){
+	sanitizeProperty(property){
+
+		if(!property) return property
 
 		if(typeof property == 'object' && !Array.isArray(property)){
 
 			const result = {}
 
-			Object.entries(property).forEach( ([key, value]) => { result[key] =  this.sanatizeProperty(value) })
+			Object.entries(property).forEach( ([key, value]) => { result[key] =  this.sanitizeProperty(value) })
 
 			return result
 		}
@@ -139,7 +141,7 @@ export class ItemImporter {
 		const extendedItems		=	items.map( (item, index) => {
 
 										this.itemConfig.properties.forEach( property => {
-											let buf = this.sanatizeProperty(item[property.name]) || null
+											let buf = this.sanitizeProperty(item[property.name]) || null
 											if( buf !== null || item[property.name] !== undefined ) item[property.name] = buf
 										})	
 
