@@ -31,6 +31,28 @@ export function getType(course){
 
 }
 
+
+export function getDistrict(course){
+
+	const map	=	{
+						'Mitte'							: 'bz_01',
+						'Friedrichshain-Kreuzberg'		: 'bz_02',
+						'Pankow'						: 'bz_03',
+						'Charlottenburg-Wilmersdorf'	: 'bz_04',
+						'Spandau'						: 'bz_05',
+						'Steglitz-Zehlendorf'			: 'bz_06',
+						'Tempelhof-Schöneberg'			: 'bz_07',
+						'Neukölln'						: 'bz_08',
+						'Treptow-Köpenick'				: 'bz_09',
+						'Marzahn-Hellersdorf'			: 'bz_10',
+						'Lichtenberg'					: 'bz_11',
+						'Reinickendorf'					: 'bz_12'
+					}
+
+
+	return map[course.bezirk]
+}
+
 export function getAllCategories(tags = []){
 
 
@@ -257,7 +279,6 @@ export function getHours(course){
 								return `${dateLine}, ${timeLine} ${locationBracs}`
 							})
 
-	if(!course.ortetermine ) console.log(lines.join('\n'))
 
 	return { de: lines.join('\n') }
 }
@@ -328,6 +349,8 @@ export async function getRemoteItems(config){
 
 									const type				=	getType(course)
 
+									const district			=	getDistrict(course)
+
 									const tags				=	[
 																	...(	
 																		allCategories.length > 0
@@ -338,7 +361,13 @@ export async function getRemoteItems(config){
 																		type
 																		?	[type]
 																		:	[]
+																	),
+																	...(
+																		district
+																		?	[district]
+																		:	[]
 																	)
+
 																]
 
 									const primaryTopic		=	mainCategories[0] || 'misc_category'
@@ -395,5 +424,7 @@ export async function getRemoteItems(config){
 // getRemoteItems(config).then( items => {
 
 // 	console.log(items.slice(0,10))
+// 	console.log(districts)
 
 // })
+
