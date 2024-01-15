@@ -31,6 +31,10 @@ export function getType(course){
 
 }
 
+export function normalizeStringOrArray(stringOrArray){
+	if(typeof stringOrArray == 'string') return [stringOrArray]
+	return stringOrArray
+}
 
 export function getDistrict(course){
 
@@ -54,7 +58,6 @@ export function getDistrict(course){
 }
 
 export function getAllCategories(tags = []){
-
 
 	return Array.from( new Set(tags.map( tag => ({
 
@@ -718,10 +721,12 @@ export async function getRemoteItems(config){
 
 	const relevantCourses 	= 	courses.filter( course => {
 
-									const schlagwort 	= Array.isArray(course.schlagwort) && course.schlagwort.some( tag => tag.match(/Senior/i) ) 
-									const zielgruppe	= typeof course.zielgruppe === 'string' && course.zielgruppe.match(/(Senior)|(Ältere)/i)
+									const schlagwort		= normalizeStringOrArray(course.schlagwort)
 
-									return schlagwort || zielgruppe	
+									const schlagwortMatch 	= Array.isArray(schlagwort) && schlagwort.some( tag => tag.match(/Senior/i) ) 
+									const zielgruppeMatch	= typeof course.zielgruppe === 'string' && course.zielgruppe.match(/(Senior)|(Ältere)/i)
+
+									return schlagwortMatch || zielgruppeMatch	
 								})
 
 
@@ -732,12 +737,12 @@ export async function getRemoteItems(config){
 									.flat()
 	
 
-
 	//check for categories:
 	relevantCourses.forEach(course => {
-		const allCategories 	= getAllCategories(course.schlagwort)
-		const mainCategories	= getMainCategories(course.schlagwort)
-		const modes				= getModes(course.schlagwort)
+
+		const allCategories 	= getAllCategories(normalizeStringOrArray(course.schlagwort))
+		const mainCategories	= getMainCategories(normalizeStringOrArray(course.schlagwort))
+		const modes				= getModes(normalizeStringOrArray(course.schlagwort))
 
 		if(allCategories.length == 0) {
 			console.log('No categories found for:', 		String(course.schlagwort), 'adding misc_category')
@@ -767,8 +772,8 @@ export async function getRemoteItems(config){
 																	original:	website
 																}
 
-									const allCategories 	= 	getAllCategories(course.schlagwort)
-									const mainCategories	= 	getMainCategories(course.schlagwort)						
+									const allCategories 	= 	getAllCategories(normalizeStringOrArray(course.schlagwort))
+									const mainCategories	= 	getMainCategories(normalizeStringOrArray(course.schlagwort))						
 
 									const type				=	getType(course)
 
@@ -797,7 +802,7 @@ export async function getRemoteItems(config){
 									
 									if(!tags.includes(primaryTopic) ) tags.push(primaryTopic)
 
-									const modes				=	getModes(course.schlagwort)
+									const modes				=	getModes(normalizeStringOrArray(course.schlagwort))
 
 									if(modes.length > 0) tags.push(...modes)
 
