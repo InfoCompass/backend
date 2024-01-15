@@ -61,7 +61,7 @@ export class ItemExporter {
 										?	restrictTranslations		
 										:	av_langs
 
-		languages					=	av_langs.filter( lang => restrictTranslations.includes(lang) )
+		const languages				=	(av_langs || []).filter( lang => restrictTranslations.includes(lang) )
 
 		const propertyNames 		= 	Array.isArray(properties)			
 										?	properties 	
