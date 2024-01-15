@@ -42,13 +42,9 @@ export class ItemExporter {
 	}
 
 
-	getCsvColumns(lang, av_langs, {properties, tagGroups, taxonomy, link}){
+	getCsvColumns(lang, av_langs, {properties, tagGroups, taxonomy, link, restrictTranslations}){
 		const columns = []
 
-		columns.push({
-			label:		'ID',
-			content: 	(item) => item._id
-		})
 
 		if(link){
 			columns.push({
@@ -57,12 +53,24 @@ export class ItemExporter {
 			})
 		}
 
-		properties 	= Array.isArray(properties)	? properties 	: []
-		tagGroups	= Array.isArray(tagGroups)	? tagGroups		: []
+		tagGroups					= 	Array.isArray(tagGroups)			
+										?	tagGroups		
+										:	[]
 
-		icItemConfig.properties
+		restrictTranslations		= 	Array.isArray(restrictTranslations)	
+										?	restrictTranslations		
+										:	av_langs
+
+		languages					=	av_langs.filter( lang => restrictTranslations.includes(lang) )
+
+		const propertyNames 		= 	Array.isArray(properties)			
+										?	properties 	
+										:	[]
+
+		const matchingProperties	= 	propertNames.map( propertyName => icItemConfig.properties.find( property => property.name == propertyName )
+
+		matchingProperties
 		.filter( 	property 	=> 	!property.internal)
-		.filter( 	property 	=> 	properties.includes(property.name) )
 		.forEach( 	property 	=> {
 
 			//ignore image
@@ -131,7 +139,7 @@ export class ItemExporter {
 			}
 
 			if(property.translatable){
-				av_langs.forEach( lang => {
+				languages.forEach( lang => {
 					if(lang.toUpperCase() == 'NONE') return null
 
 
@@ -153,6 +161,14 @@ export class ItemExporter {
 					content: 	(item) => item[property.name]
 				})
 			}
+
+			// Always include ID as last column:
+
+			columns.push({
+				label:		'ID',
+				content: 	(item) => item._id
+			})
+
 
 
 		})
