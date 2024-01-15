@@ -67,7 +67,7 @@ export class ItemExporter {
 										?	properties 	
 										:	[]
 
-		const matchingProperties	= 	propertNames.map( propertyName => icItemConfig.properties.find( property => property.name == propertyName )
+		const matchingProperties	= 	propertNames.map( propertyName => icItemConfig.properties.find( property => property.name == propertyName ) )
 
 		matchingProperties
 		.filter( 	property 	=> 	!property.internal)
