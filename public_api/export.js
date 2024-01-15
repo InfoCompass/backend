@@ -162,13 +162,6 @@ export class ItemExporter {
 				})
 			}
 
-			// Always include ID as last column:
-
-			columns.push({
-				label:		'ID',
-				content: 	(item) => item._id
-			})
-
 
 
 		})
@@ -205,6 +198,13 @@ export class ItemExporter {
 
 
 		console.log(columns)
+
+		// Always include ID as last column:
+		columns.push({
+			label:		'ID',
+			content: 	(item) => item._id
+		})
+
 
 		return columns
 
