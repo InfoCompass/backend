@@ -82,7 +82,7 @@ export class ItemImporter {
 		return 	items.map( ({_id, ...item}) => ({
 					...item,
 					id: _id,
-					//remove date not meant for non-editors:
+					// remove data not meant for non-editors:
 					editingNote:	undefined,
     				lastEditor:	    undefined,
     				creator:		undefined,
