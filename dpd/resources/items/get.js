@@ -4,7 +4,7 @@ cancelUnless(
     || (me && me.privileges && me.privileges.indexOf('edit_items') != -1) 
 )
 
-cancelIf(!internal && this.proposalFor)
+// cancelIf(!internal && this.proposalFor)
 
 var self = this
 
