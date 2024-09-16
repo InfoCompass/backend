@@ -37,18 +37,18 @@ if(internal || (me && me.privileges.indexOf('edit_items') != -1 )) {
         )
     }
 
-    this.proposals = []
+    // this.proposals = []
 
-    $addCallback()
-    dpd.items.get({proposalFor: this.id})
-    .then(
-        proposals => { 
-            this.proposals.push(...proposals)
-            $finishCallback()
-        },
+    // $addCallback()
+    // dpd.items.get({proposalFor: this.id})
+    // .then(
+    //     proposals => { 
+    //         this.proposals.push(...proposals)
+    //         $finishCallback()
+    //     },
 
-        $finishCallback()
-    )
+    //     $finishCallback()
+    // )
 
 } else {
     this.editingNote    = undefined
