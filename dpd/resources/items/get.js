@@ -6,7 +6,16 @@ cancelUnless(
 
 // cancelIf(!internal && this.proposalFor)
 
+
 var self = this
+
+
+// This is a generic property, 
+// its values are not supposed to be stored in the data base.
+// Alas that happened in the past, and might happen again, 
+// that's why we reset them here:
+this.proposals = []
+
 
 if(internal || (me && me.privileges.indexOf('edit_items') != -1 )) {
 
