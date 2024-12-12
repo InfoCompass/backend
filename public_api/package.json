@@ -5,7 +5,7 @@
   "main": "public_api.js",
   "type": "module",
   "dependencies": {
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "markdown-it": "^12.2.0",
     "mongodb": "^3.6.3"
   },
