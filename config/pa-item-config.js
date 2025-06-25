@@ -15,18 +15,6 @@
 			mandatory:		true
 		}),		
 		new Property({
-			name: 			"titleAddOn",
-			getErrors:		function(value){
-
-							},	
-			defaultValue:	{},
-			min:			3,
-			max:			100,
-			searchable:		true,
-			translatable:		true,
-			autoTranslate:		true
-		}),	
-		new Property({
 			name: 			"image",
 			getErrors:		function(value){
 
@@ -55,8 +43,8 @@
 			name: 			"tags",
 			getErrors:		function(values){
 							},
+			searchable:		true,
 			defaultValue:	[],
-			searchable:		true	
 		}),
 
 		new Property({
@@ -76,10 +64,9 @@
 			defaultValue:	{},
 			mandatory:		true,
 			min:			3,
-			max:			170,
+			max:			120,
 			searchable:		true,
-			translatable:	true,
-			autoTranslate:	true
+			translatable:	true
 		}),
 
 		new Property({
@@ -90,10 +77,9 @@
 			searchable:		true,
 			min:			0,
 			max:			1500,
-			translatable:	true,
-			autoTranslate:	true
+			translatable:	true
 		}),
-
+		
 		new Property({
 			name: 			"location_ref",
 			getErrors:		function(value, key){	
@@ -112,14 +98,10 @@
 		}),
 
 		new Property({
-			name: 			"directions",
-			getErrors:		function(value, key){	
-							},	
-			defaultValue:	{},
-			searchable:		true,
-			translatable:	true,
-			autoTranslate:	true,
-			project:		"location_ref"
+			name: 			"sponsors",
+			getErrors:		function(value, key){},	
+			defaultValue:	"",			
+			searchable:		true,			
 		}),
 
 		new Property({
@@ -208,23 +190,9 @@
 			defaultValue:	0,
 			project:		"location_ref"
 		}),
-		new Property({
-			name: 			"recurring_event",
-			getErrors:		function(value, key){	
-			                    return null
-							},	
-			defaultValue:	""			
-		}),
-		new Property({
-			name: 			"responsibleInstitution", //TODO replace with genric tags
-			getErrors:		function(value, key){		
-							},	
-			defaultValue:	"",
-			searchable:		true,
-		}),
 
 		new Property({
-			name: 			"sponsors", //TODO replace with genric tags
+			name: 			"responsible",
 			getErrors:		function(value, key){		
 							},	
 			defaultValue:	"",
@@ -234,11 +202,8 @@
 
 		new Property({
 			name: 			"website",
-			getErrors:		function(value, key){	
-
-								if(!value)	return;
-								
-								if(!value.match(/^https?:\/\/.+/)) return {
+			getErrors:		function(value, key){		
+								if(!value.match(/^https?:\/\/.+/)) return{
 									message:	"Website url must start with http(s).",
 									code:		"INVALID_PROTOCOL"
 								}
@@ -296,6 +261,53 @@
 
 
 		new Property({
+			name: 			"instagram",
+			getErrors:		function(value, key){		
+								
+							},	
+			defaultValue:	"",
+			searchable:		true,
+		}),
+
+
+
+		new Property({
+			name: 			"youtube",
+			getErrors:		function(value, key){		
+								
+							},	
+			defaultValue:	"",
+			searchable:		true,
+		}),
+
+
+
+		new Property({
+			name: 			"vimeo",
+			getErrors:		function(value, key){		
+								
+							},	
+			defaultValue:	"",
+			searchable:		true,
+		}),
+
+
+
+
+
+		new Property({
+			name: 			"telegram",
+			getErrors:		function(value, key){		
+								
+							},	
+			defaultValue:	"",
+			searchable:		true,
+		}),
+
+
+
+
+		new Property({
 			name: 			"whatsapp",
 			getErrors:		function(value, key){		
 								
@@ -322,14 +334,6 @@
 			searchable:		true,
 		}),
 
-		new Property({
-			name: 			"mobile",
-			getErrors:		function(value, key){		
-								
-							},	
-			defaultValue:	"",
-			searchable:		true,
-		}),
 
 		new Property({
 			name: 			"editingNote",
@@ -347,47 +351,8 @@
 							},	
 			defaultValue:	{},
 			searchable:		false,
-			translatable:	true,
-			autoTranslate:	true
+			translatable:	true
 		}),
-
-
-		new Property({
-			name: 			"accessibility",
-			getErrors:		function(value, key){	
-									
-							},	
-			defaultValue:	{},
-			searchable:		false,
-			translatable:	true,
-			autoTranslate:	true
-		}),
-
-
-		new Property({
-			name: 			"charge",
-			getErrors:		function(value, key){	
-									
-							},	
-			defaultValue:	{},
-			searchable:		false,
-			translatable:	true,
-			autoTranslate:	true
-		}),
-
-
-
-		new Property({
-			name: 			"venue",
-			getErrors:		function(value, key){	
-									
-							},	
-			defaultValue:	{},
-			searchable:		false,
-			translatable:	true,
-			autoTranslate:	true
-		}),
-
 
 		new Property({
 			name: 			"resubmissionDate",
@@ -403,15 +368,34 @@
 			searchable:		false,
 		}),
 
-		
 		new Property({
-			name:			"remoteItem",
-			defaultValue:	null,
-			type:			'object',
-			searchable:		true,
-			internal:		true
+			name: 			"projectStartDate",
+			getErrors:		function(value, key){	
+								return 	isNaN(Date.parse(value))
+										?	{
+												message: 'Unable to convert string to date. Try YYYY-MM-DDTHH:MM',
+												code:	 'INVALID_DATE_STRING'
+											}
+										:	null
+							},	
+			defaultValue:	"",
+			searchable:		false,
 		}),
-		
+
+		new Property({
+			name: 			"projectEndDate",
+			getErrors:		function(value, key){	
+								return 	isNaN(Date.parse(value))
+										?	{
+												message: 'Unable to convert string to date. Try YYYY-MM-DDTHH:MM',
+												code:	 'INVALID_DATE_STRING'
+											}
+										:	null
+							},	
+			defaultValue:	"",
+			searchable:		false,
+		}),
+
 
 		new Property({
 			name: 			"proposalFor",
@@ -442,6 +426,12 @@
 			name:			"proposals",
 			defaultValue:	[],
 			internal:		true
+		}),
+		new Property({
+			name:			"apiKeyUsed",
+			defaultValue:	false,
+			internal:		true
 		})
+
 
 	]
