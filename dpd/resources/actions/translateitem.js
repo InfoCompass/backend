@@ -28,6 +28,8 @@ var properties_to_translate = 	req.properties && req.properties.length
 									.map( property_obj => property_obj.name)
 
 
+console.lg({ctx})
+
 if(properties_to_translate.length == 0){
 	ctx.error('no translatable properties found')
 }
