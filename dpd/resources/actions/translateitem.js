@@ -18,7 +18,6 @@ if(typeof req.to 			== 'string') req.to 		= [req.to]
 if(typeof req.properties 	== 'string') req.properties = [req.properties]
 
 
-$addCallback()
 
 
 var properties_to_translate = 	req.properties && req.properties.length
@@ -31,9 +30,9 @@ var properties_to_translate = 	req.properties && req.properties.length
 
 if(properties_to_translate.length == 0){
 	ctx.error('no translatable properties found')
-	$finishCallback()
 }
 
+$addCallback()
 
 function isValidFrom(str){
 	return	str 
