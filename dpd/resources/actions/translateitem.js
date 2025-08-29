@@ -4,8 +4,6 @@ cancelUnless(
     "unauthorized", 401
 )
 
-console.log('Processing item translations')
-
 var req 			= ctx.body,
 	icItemConfig    = require(process.cwd()+'/public/ic-item-config.js')
 
@@ -20,8 +18,6 @@ if(typeof req.to 			== 'string') req.to 		= [req.to]
 if(typeof req.properties 	== 'string') req.properties = [req.properties]
 
 
-console.log(req)
-
 $addCallback()
 
 
@@ -32,11 +28,10 @@ var properties_to_translate = 	req.properties && req.properties.length
 									.filter( property_obj =>  property_obj.autoTranslate)
 									.map( property_obj => property_obj.name)
 
-console.log({properties_to_translate})
 
 if(properties_to_translate.length == 0){
-	$finishCallback()
 	ctx.error('no translatable properties found')
+	$finishCallback()
 }
 
 
