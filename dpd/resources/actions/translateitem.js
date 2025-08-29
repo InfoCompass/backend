@@ -4,7 +4,7 @@ cancelUnless(
     "unauthorized", 401
 )
 
-console.lg({ctx})
+console.log({ctx})
 
 var req 			= ctx.body,
 	icItemConfig    = require(process.cwd()+'/public/ic-item-config.js')
