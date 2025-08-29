@@ -4,7 +4,6 @@ cancelUnless(
     "unauthorized", 401
 )
 
-console.log({ctx})
 
 var req 			= ctx.body,
 	icItemConfig    = require(process.cwd()+'/public/ic-item-config.js')
@@ -32,7 +31,8 @@ var properties_to_translate = 	req.properties && req.properties.length
 
 
 if(properties_to_translate.length == 0){
-	ctx.error('no translatable properties found')
+	error('no translatable properties found')
+	ctx.done()
 }
 
 $addCallback()
@@ -88,7 +88,7 @@ ctx.dpd.items.get({id:req.item})
 			)
 			.then( 	() => ctx.dpd.items.put(item))
 			.then( 	updated_item => setResult(updated_item) )
-			.catch( reason => ctx.error(reason))
+			.catch( reason => error(reason))
 })
 .catch( e => { console.log(e); cancel('item not found', 404) })
 .finally($finishCallback)
