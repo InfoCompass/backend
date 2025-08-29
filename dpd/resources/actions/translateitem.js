@@ -1,3 +1,5 @@
+import { properties } from "../../public/ic-item-config.js";
+
 cancelUnless( 
         internal
     ||  (me && me.privileges.indexOf('edit_items') != -1),
@@ -48,6 +50,7 @@ function isValidTo(str){
 	return !isValidFrom(str)
 }
 
+console.log({properties_to_translate})
 
 
 ctx.dpd.items.get({id:req.item})
