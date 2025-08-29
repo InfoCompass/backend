@@ -32,6 +32,8 @@ var properties_to_translate = 	req.properties && req.properties.length
 									.filter( property_obj =>  property_obj.autoTranslate)
 									.map( property_obj => property_obj.name)
 
+console.log({properties_to_translate})
+
 if(properties_to_translate.length == 0){
 	$finishCallback()
 	ctx.error('no translatable properties found')
@@ -48,7 +50,6 @@ function isValidTo(str){
 	return !isValidFrom(str)
 }
 
-console.log({properties_to_translate})
 
 
 ctx.dpd.items.get({id:req.item})
