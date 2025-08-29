@@ -1,5 +1,3 @@
-import { properties } from "../../public/ic-item-config.js";
-
 cancelUnless( 
         internal
     ||  (me && me.privileges.indexOf('edit_items') != -1),
@@ -28,11 +26,11 @@ $addCallback()
 
 
 var properties_to_translate = 	req.properties && req.properties.length
-				?	req.properties
-				:	icItemConfig.properties
-					.filter( property_obj =>  property_obj.translatable)
-					.filter( property_obj =>  property_obj.autoTranslate)
-					.map( property_obj => property_obj.name)
+								?	req.properties
+								:	icItemConfig.properties
+									.filter( property_obj =>  property_obj.translatable)
+									.filter( property_obj =>  property_obj.autoTranslate)
+									.map( property_obj => property_obj.name)
 
 if(properties_to_translate.length == 0){
 	$finishCallback()
