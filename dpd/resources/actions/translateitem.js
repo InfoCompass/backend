@@ -30,10 +30,7 @@ var properties_to_translate = 	req.properties && req.properties.length
 
 
 
-if(properties_to_translate.length == 0){
-	error('no translatable properties found')
-	ctx.done()
-}
+cancelIf(properties_to_translate.length == 0, 'no translatable properties found', 400)
 
 $addCallback()
 
