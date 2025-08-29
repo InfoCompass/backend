@@ -1,10 +1,10 @@
-
 cancelUnless( 
         internal
     ||  (me && me.privileges.indexOf('edit_items') != -1),
     "unauthorized", 401
 )
 
+console.log('Processing item translations')
 
 var req 			= ctx.body,
 	icItemConfig    = require(process.cwd()+'/public/ic-item-config.js')
@@ -20,6 +20,7 @@ if(typeof req.to 			== 'string') req.to 		= [req.to]
 if(typeof req.properties 	== 'string') req.properties = [req.properties]
 
 
+console.log(req)
 
 $addCallback()
 
@@ -46,6 +47,7 @@ function isValidFrom(str){
 function isValidTo(str){
 	return !isValidFrom(str)
 }
+
 
 
 ctx.dpd.items.get({id:req.item})
@@ -87,7 +89,7 @@ ctx.dpd.items.get({id:req.item})
 			)
 			.then( 	() => ctx.dpd.items.put(item))
 			.then( 	updated_item => setResult(updated_item) )
-			.catch( reason => ctx.done(reason))
+			.catch( reason => ctx.error(reason))
 })
 .catch( e => { console.log(e); cancel('item not found', 404) })
 .finally($finishCallback)

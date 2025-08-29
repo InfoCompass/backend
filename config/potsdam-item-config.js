@@ -283,18 +283,6 @@
 		}),
 
 
-
-		new Property({
-			name: 			"twitter",
-			getErrors:		function(value, key){		
-								
-							},	
-			defaultValue:	"",
-			searchable:		true,
-		}),
-
-
-
 		new Property({
 			name: 			"whatsapp",
 			getErrors:		function(value, key){		
