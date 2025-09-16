@@ -16,9 +16,9 @@
             "order": 1
         },
         "tag": {
-            "name": "link",
+            "name": "tag",
             "type": "string",
-            "id": "link",
+            "id": "tag",
             "order": 2        	
         },
         "link": {
