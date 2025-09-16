@@ -151,25 +151,29 @@ exports.getDeepLTranslation = function (from, to, text, config){
 
 	if(!config.deepLApiKey) Promise.reject('missing deepL api key.')
 
-	return 	Promise.resolve(request.post(
-				'https://api.deepl.com/v2/translate?auth_key='
-				+ config.deepLApiKey
-				+ '&text=' + encodeURIComponent(text)
+	return 	Promise.resolve(fetch(
+				'https://api.deepl.com/v2/translate'
+				+ '?text=' + encodeURIComponent(text)
 				+ '&source_lang=' + from
-				+ '&target_lang=' + to
+				+ '&target_lang=' + to,
+				{
+					headers:{
+						"Authorization" : "DeepL-Auth-Key " + config.deepLApiKey
+					}
+				}
 			))
-			.catch( req => {
+			.catch( e => {
 
-				console.log('POST failed: https://api.deepl.com/v2/translate?auth_key', req.statusCode, text.slice(0,100))
+				console.log('POST failed: https://api.deepl.com/v2/translate?auth_key', e)
 
 				return Promise.reject('DeepL failed.')				
 
 			})
-			.then( 	json	=>	{ try{ return JSON.parse(json) } catch(e) { return Promise.reject(e) } })
-			.then( 	result 	=> 	result && result.translations && result.translations[0] && result.translations[0].text)
-			.then( 	text	=> 	text
-								?	{text, translator: 'DeepL'}
-								:	Promise.reject('DeepL: reponse yields no translation'))
+			.then( 	response	=>	{ try{ return response.json() } catch(e) { return Promise.reject(e) } })
+			.then( 	result 		=> 	result && result.translations && result.translations[0] && result.translations[0].text)
+			.then( 	text		=> 	text
+									?	{text, translator: 'DeepL'}
+									:	Promise.reject('DeepL: response yields no translation'))
 }
 
 exports.mail = async function(to, subject, content, config, bcc){
