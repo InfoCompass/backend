@@ -208,7 +208,13 @@
 			defaultValue:	0,
 			project:		"location_ref"
 		}),
-
+		new Property({
+			name: 			"recurring_event",
+			getErrors:		function(value, key){	
+			                    return null
+							},	
+			defaultValue:	""			
+		}),
 		new Property({
 			name: 			"responsibleInstitution", //TODO replace with genric tags
 			getErrors:		function(value, key){		
@@ -275,18 +281,6 @@
 			defaultValue:	"",
 			searchable:		true,
 		}),
-
-
-
-		new Property({
-			name: 			"twitter",
-			getErrors:		function(value, key){		
-								
-							},	
-			defaultValue:	"",
-			searchable:		true,
-		}),
-
 
 
 		new Property({
