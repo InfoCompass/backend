@@ -1,4 +1,3 @@
-
 cancelUnless( 
         internal
     ||  (me && me.privileges.indexOf('edit_items') != -1),
@@ -21,21 +20,19 @@ if(typeof req.properties 	== 'string') req.properties = [req.properties]
 
 
 
-$addCallback()
-
 
 var properties_to_translate = 	req.properties && req.properties.length
-				?	req.properties
-				:	icItemConfig.properties
-					.filter( property_obj =>  property_obj.translatable)
-					.filter( property_obj =>  property_obj.autoTranslate)
-					.map( property_obj => property_obj.name)
+								?	req.properties
+								:	icItemConfig.properties
+									.filter( property_obj =>  property_obj.translatable)
+									.filter( property_obj =>  property_obj.autoTranslate)
+									.map( property_obj => property_obj.name)
 
-if(properties_to_translate.length == 0){
-	$finishCallback()
-	ctx.error('no translatable properties found')
-}
 
+
+cancelIf(properties_to_translate.length == 0, 'no translatable properties found', 400)
+
+$addCallback()
 
 function isValidFrom(str){
 	return	str 
@@ -46,6 +43,7 @@ function isValidFrom(str){
 function isValidTo(str){
 	return !isValidFrom(str)
 }
+
 
 
 ctx.dpd.items.get({id:req.item})
@@ -87,7 +85,7 @@ ctx.dpd.items.get({id:req.item})
 			)
 			.then( 	() => ctx.dpd.items.put(item))
 			.then( 	updated_item => setResult(updated_item) )
-			.catch( reason => ctx.done(reason))
+			.catch( reason => error(reason))
 })
 .catch( e => { console.log(e); cancel('item not found', 404) })
 .finally($finishCallback)
