@@ -4,10 +4,13 @@ cancelUnless(
     || (me && me.privileges && me.privileges.indexOf('edit_items') != -1) 
 )
 
+var icItemConfig    = require (process.cwd()+'/public/ic-item-config.js')
+var self            = this
+
+
 // cancelIf(!internal && this.proposalFor)
 
 
-var self = this
 
 
 // This is a generic property, 
@@ -71,6 +74,6 @@ if(internal || (me && me.privileges.indexOf('edit_items') != -1 )) {
 }
 
 icItemConfig.properties.forEach(function(property){
-    if(self[property.name] === undefined)   delete self[property.name]
-    if(self[property.name] === null)        delete self[property.name]
+    if(this[property.name] === undefined)   delete this[property.name]
+    if(this[property.name] === null)        delete this[property.name]
 })
