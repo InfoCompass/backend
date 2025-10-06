@@ -74,6 +74,6 @@ if(internal || (me && me.privileges.indexOf('edit_items') != -1 )) {
 }
 
 icItemConfig.properties.forEach(function(property){
-    if(this[property.name] === undefined)   delete this[property.name]
-    if(this[property.name] === null)        delete this[property.name]
+    if(self[property.name] === undefined)   delete self[property.name]
+    if(self[property.name] === null)        delete self[property.name]
 })
