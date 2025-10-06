@@ -28,7 +28,7 @@ if(internal || (me && me.privileges.indexOf('edit_items') != -1 )) {
                 $finishCallback()
             },
             function(){
-                 $finishCallback()
+                $finishCallback()
             }
         )
     }
@@ -69,3 +69,8 @@ if(internal || (me && me.privileges.indexOf('edit_items') != -1 )) {
     this.creator        = undefined
     this.creationDate   = undefined
 }
+
+icItemConfig.properties.forEach(function(property){
+    if(self[property.name] === undefined)   delete self[property.name]
+    if(self[property.name] === null)        delete self[property.name]
+})
