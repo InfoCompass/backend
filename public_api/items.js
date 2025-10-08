@@ -77,17 +77,27 @@ export class ItemImporter {
 		//END
 
 
+		const cleanItems	= 	items.map( ({_id, ...item}) => {
 
+									const cleanItem = 	{
+															...item,
+															id: _id,
+															// remove data not meant for non-editors:
+															editingNote:	undefined,
+															lastEditor:	    undefined,
+															creator:		undefined,
+															creationDate:	undefined						
+														}
 
-		return 	items.map( ({_id, ...item}) => ({
-					...item,
-					id: _id,
-					// remove data not meant for non-editors:
-					editingNote:	undefined,
-    				lastEditor:	    undefined,
-    				creator:		undefined,
-    				creationDate:	undefined						
-				}))			
+									this.itemConfig.properties.forEach( property => {
+										if(cleanItem[property.name] === null) 		delete cleanItem[property.name]
+										if(cleanItem[property.name] === undefined) 	delete cleanItem[property.name]
+									})	
+
+									return cleanItem
+								})
+
+		return 	cleanItems
 	}
 
 	sanitizeProperty(property){
