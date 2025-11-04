@@ -13,8 +13,10 @@ var self            = this
 var icItemConfig    = require (process.cwd()+'/public/ic-item-config.js')
 
 Object.keys(this).forEach(key => {
+    if(key === "id") return
     if(icItemConfig.properties.some(property => property.name === key)) return
-    console.warn('suprlus property: ', key)    
+    console.warn('Surplus property: ', key)    
+    delete this[key]
 })
 
 
