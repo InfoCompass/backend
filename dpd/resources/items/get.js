@@ -6,8 +6,15 @@ cancelUnless(
 
 // cancelIf(!internal && this.proposalFor)
 
+var icItemConfig    = require (process.cwd()+'/public/ic-item-config.js')
+
+Object.keys(this).forEach(key => {
+    if(icItemConfig.properties.some(property => property.name === key)) return
+    console.warn('suprlus property: ', key)    
+})
 
 var self = this
+
 
 
 // This is a generic property, 
