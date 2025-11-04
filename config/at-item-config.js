@@ -3,6 +3,7 @@
 
 	exports.properties = [
 
+
 		new Property({
 			name: 			"title",
 			getErrors:		function(value){
@@ -10,22 +11,10 @@
 							},	
 			defaultValue:	"",
 			min:			3,
-			max:			100,
+			max:			110,
 			searchable:		true,
 			mandatory:		true
 		}),		
-		new Property({
-			name: 			"titleAddOn",
-			getErrors:		function(value){
-
-							},	
-			defaultValue:	{},
-			min:			3,
-			max:			100,
-			searchable:		true,
-			translatable:		true,
-			autoTranslate:		true
-		}),	
 		new Property({
 			name: 			"image",
 			getErrors:		function(value){
@@ -54,11 +43,15 @@
 		new Property({
 			name: 			"tags",
 			getErrors:		function(values){
-							},
-			defaultValue:	[],
-			searchable:		true	
-		}),
+								// var invalid_tags = values.filter(function(value){ return this.options.indexOf(value) == -1 })
+								// if(invalid_tags.length != 0) return {
+								// 	message:	"Invalid values: "+ invalid_values.join('')+". Valid values are: "+this.options.join(',')+".",
+								// 	code:		"INVALID_VALUE"
+								// }
 
+							},
+			defaultValue:	[]	
+		}),
 		new Property({
 			name: 			"primaryTopic",
 			getErrors:		function(value, key){	
@@ -76,10 +69,9 @@
 			defaultValue:	{},
 			mandatory:		true,
 			min:			3,
-			max:			170,
+			max:			120,
 			searchable:		true,
-			translatable:	true,
-			autoTranslate:	true
+			translatable:	true
 		}),
 
 		new Property({
@@ -88,38 +80,17 @@
 							},	
 			defaultValue:	{},
 			searchable:		true,
-			min:			0,
-			max:			1500,
 			translatable:	true,
-			autoTranslate:	true
+			min:			0,
+			max:			1200
 		}),
-
-		new Property({
-			name: 			"location_ref",
-			getErrors:		function(value, key){	
-							},	
-			defaultValue:	"",
-			searchable:		false,
-		}),
-
+		
 		new Property({
 			name: 			"location",
 			getErrors:		function(value, key){	
 							},	
 			defaultValue:	"",
 			searchable:		true,
-			project:		"location_ref"
-		}),
-
-		new Property({
-			name: 			"directions",
-			getErrors:		function(value, key){	
-							},	
-			defaultValue:	{},
-			searchable:		true,
-			translatable:	true,
-			autoTranslate:	true,
-			project:		"location_ref"
 		}),
 
 		new Property({
@@ -140,7 +111,6 @@
 							},	
 			defaultValue:	"",
 			searchable:		true,
-			project:		"location_ref"
 		}),
 
 		new Property({
@@ -161,7 +131,6 @@
 							},	
 			defaultValue:	"",
 			searchable:		true,
-			project:		"location_ref"
 		}),
 
 		new Property({
@@ -182,7 +151,6 @@
 							},	
 			defaultValue:	"Berlin",
 			searchable:		true,
-			project:		"location_ref"
 		}),
 
 		new Property({
@@ -194,7 +162,6 @@
 								} 	
 							},	
 			defaultValue:	0,
-			project:		"location_ref"
 		}),
 
 		new Property({
@@ -206,34 +173,14 @@
 								} 	
 							},	
 			defaultValue:	0,
-			project:		"location_ref"
-		}),
-
-		new Property({
-			name: 			"responsibleInstitution", //TODO replace with genric tags
-			getErrors:		function(value, key){		
-							},	
-			defaultValue:	"",
-			searchable:		true,
-		}),
-
-		new Property({
-			name: 			"sponsors", //TODO replace with genric tags
-			getErrors:		function(value, key){		
-							},	
-			defaultValue:	"",
-			searchable:		true,
 		}),
 
 
 		new Property({
 			name: 			"website",
-			getErrors:		function(value, key){	
-
-								if(!value)	return;
-								
-								if(!value.match(/^https?:\/\/.+/)) return {
-									message:	"Website url must start with http(s).",
+			getErrors:		function(value, key){		
+								if(!value.match(/^https?:\/\/.+/)) return{
+									message:	"Website url must start with http(s)://.",
 									code:		"INVALID_PROTOCOL"
 								}
 							},	
@@ -287,6 +234,14 @@
 			searchable:		true,
 		}),
 
+		new Property({
+			name: 			"instagram",
+			getErrors:		function(value, key){		
+								
+							},	
+			defaultValue:	"",
+			searchable:		true,
+		}),
 
 
 		new Property({
@@ -333,56 +288,55 @@
 			defaultValue:	"",
 			searchable:		false,
 		}),
+		
+		new Property({
+			name: 			"startDate",
+			getErrors:		function(value, key){	
+								return 	isNaN(Date.parse(value))
+										?	{
+												message: 'Unable to convert string to date. Try YYYY-MM-DDTHH:MM',
+												code:	 'INVALID_DATE_STRING'
+											}
+										:	null
+							},
+			searchable:		false,
+			defaultValue:	""
+		}),
+
+
+		new Property({
+			name: 			"endDate",
+			getErrors:		function(value, key){	
+								return 	isNaN(Date.parse(value))
+										?	{
+												message: 'Unable to convert string to date. Try YYYY-MM-DDTHH:MM',
+												code:	 'INVALID_DATE_STRING'
+											}
+										:	null
+							},	
+			defaultValue:	"",
+			searchable:		false,
+		}),
 
 		new Property({
 			name: 			"hours",
 			getErrors:		function(value, key){	
 									
 							},	
-			defaultValue:	{},
-			searchable:		false,
-			translatable:	true,
-			autoTranslate:	true
+			defaultValue:		{},
+			searchable:		true,
+			translatable:	true
 		}),
 
-
+		//Used as responsible Institution for some reason...
 		new Property({
-			name: 			"accessibility",
+			name: 			"remarks",
 			getErrors:		function(value, key){	
 									
 							},	
-			defaultValue:	{},
-			searchable:		false,
-			translatable:	true,
-			autoTranslate:	true
+			defaultValue:	"",
+			searchable:		true,
 		}),
-
-
-		new Property({
-			name: 			"charge",
-			getErrors:		function(value, key){	
-									
-							},	
-			defaultValue:	{},
-			searchable:		false,
-			translatable:	true,
-			autoTranslate:	true
-		}),
-
-
-
-		new Property({
-			name: 			"venue",
-			getErrors:		function(value, key){	
-									
-							},	
-			defaultValue:	{},
-			searchable:		false,
-			translatable:	true,
-			autoTranslate:	true
-		}),
-
-
 		new Property({
 			name: 			"resubmissionDate",
 			getErrors:		function(value, key){	
@@ -396,17 +350,6 @@
 			defaultValue:	"",
 			searchable:		false,
 		}),
-
-		
-		new Property({
-			name:			"remoteItem",
-			defaultValue:	null,
-			type:			'object',
-			searchable:		true,
-			internal:		true
-		}),
-		
-
 		new Property({
 			name: 			"proposalFor",
 			defaultValue:	"",
@@ -438,4 +381,5 @@
 			internal:		true
 		})
 
-	]
+
+	]	

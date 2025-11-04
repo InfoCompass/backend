@@ -4,6 +4,10 @@ cancelUnless(
     || (me && me.privileges && me.privileges.indexOf('edit_items') != -1) 
 )
 
+var icItemConfig    = require (process.cwd()+'/public/ic-item-config.js')
+var self            = this
+
+
 // cancelIf(!internal && this.proposalFor)
 
 var icItemConfig    = require (process.cwd()+'/public/ic-item-config.js')
@@ -13,7 +17,6 @@ Object.keys(this).forEach(key => {
     console.warn('suprlus property: ', key)    
 })
 
-var self = this
 
 
 
@@ -35,7 +38,7 @@ if(internal || (me && me.privileges.indexOf('edit_items') != -1 )) {
                 $finishCallback()
             },
             function(){
-                 $finishCallback()
+                $finishCallback()
             }
         )
     }
@@ -76,3 +79,8 @@ if(internal || (me && me.privileges.indexOf('edit_items') != -1 )) {
     this.creator        = undefined
     this.creationDate   = undefined
 }
+
+icItemConfig.properties.forEach(function(property){
+    if(self[property.name] === undefined)   delete self[property.name]
+    if(self[property.name] === null)        delete self[property.name]
+})
