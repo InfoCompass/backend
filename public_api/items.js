@@ -89,10 +89,17 @@ export class ItemImporter {
 															creationDate:	undefined						
 														}
 
+									Object.keys(item).forEach( key => {
+										if(this.itemConfig.properties.some(property => property.name === key)) return
+										delete cleanItem[property.name]
+									})
+
 									this.itemConfig.properties.forEach( property => {
 										if(cleanItem[property.name] === null) 		delete cleanItem[property.name]
 										if(cleanItem[property.name] === undefined) 	delete cleanItem[property.name]
+										if(property.internal)						delete cleanItem[property.name]
 									})	
+
 
 									return cleanItem
 								})
