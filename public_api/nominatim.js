@@ -109,7 +109,12 @@ export class Nominatim {
 		
 		const params 		= new URLSearchParams(fullQuery)
 
-		const { lat, lon, displayName } = await this.nominatimRequest(params)
+		const result 		= await this.nominatimRequest(params)
+
+		console.log({result})
+		
+		const { lat, lon, displayName } = result
+
 
 		return { lat, lon, displayName }
 	}
