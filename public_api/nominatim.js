@@ -34,8 +34,8 @@ export class Nominatim {
 
 	// check if a request is within the restrictions
 	async validateRequest(request){
-		if(!request.city) 			throw new Error("missing city")
-		if(!request.street) 		throw new Error("missing street")
+		// if(!request.city) 			throw new Error("missing city")
+		// if(!request.street) 		throw new Error("missing street")
 		if(!request.postalcode) 	throw new Error("missing postalcode")
 		if(this.restrictions.city && !this.restrictions.citytoUpperCase != request.city.toUpperCase() ) throw new Error("city restrictions unmet")
 	}
@@ -62,15 +62,22 @@ export class Nominatim {
 		return response.json()
 	}
 
-	async getCoordinates(request, state = undefined){
+	async getCoordinates(query){
+		if("street" 	in query)	return await this.getCoordinatesFromAddress(query)
+		if("postalcode" in query)	return await this.getCoordinatesFromPostalCode(query)
+
+		throw Error("bad request")
+	}
+
+	async getCoordinatesFromAddress(query, state = undefined){
 
 
-		await this.validateRequest(request)
+		await this.validateRequest(query)
 
-		const queries 		=	{
-									city: 			request.city,
-									postalcode:		request.postalcode,
-									street:			request.street,
+		const fullQuery		=	{
+									city: 			query.city,
+									postalcode:		query.postalcode,
+									street:			query.street,
 									country:		this.restrictions.country,
 									format:			'json',
 									addressdetails:	1
@@ -78,18 +85,35 @@ export class Nominatim {
 
 		const searchResults = 	(this.restrictions.state || [undefined]).map( async state => {
 
-									const params = new URLSearchParams({...queries, state})
+									const params = new URLSearchParams({...fullQuery, state})
 
 									return await this.nominatimRequest(params)
 									
 								})
 
-		const data 		= 	await Promise.all(searchResults)
-		const results 	= 	data.flat()
-							.filter( result => result.address.postcode == request.postalcode) 
-							.map( ({lat, lon, display_name }) => ({lat,lon, display_name}))
+		const data 			= 	await Promise.all(searchResults)
+		const results 		= 	data.flat()
+								.filter( result => result.address.postcode == request.postalcode) 
+								.map( ({lat, lon, display_name }) => ({lat,lon, display_name}))
 
 		return results
+	}
+
+	async getCoordinatesFromPostalCode(query){
+
+		if(typeof postalcode != string) throw new Error("postalcode must be a string.")
+
+		const fullQuery			=	{
+										postalcode: query.postalcode,
+										country:	this.restrictions.country,
+										format: 	"jsonv2",
+									}
+		
+		const params 		= new URLSearchParams(fullQuery)
+
+		const { lat, lon, displayName } = await this.nominatimRequest(params)
+
+		return { lat, lon, displayName }
 	}
 
 }
