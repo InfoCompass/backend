@@ -101,7 +101,7 @@ export class Nominatim {
 
 	async getCoordinatesFromPostalCode(query){
 
-		if(typeof postalcode != string) throw new Error("postalcode must be a string.")
+		if(typeof postalcode != "string") throw new Error("postalcode must be a string.")
 
 		const fullQuery			=	{
 										postalcode: query.postalcode,
