@@ -114,6 +114,7 @@ export class Nominatim {
 
 		const { lat, lon, display_name } = result
 
+		console.log({result})
 		console.log({ lat, lon, display_name })
 
 		return { lat, lon, display_name }
