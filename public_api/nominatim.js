@@ -79,7 +79,7 @@ export class Nominatim {
 									postalcode:		query.postalcode,
 									street:			query.street,
 									country:		this.restrictions.country,
-									format:			'json',
+									format:			'jsonv2',
 									addressdetails:	1
 								}
 
@@ -98,7 +98,7 @@ export class Nominatim {
 		console.log({data})
 
 		const results 		= 	data.flat()
-								.filter( result => result.address.postcode == request.postalcode) 
+								.filter( result => result.address.postcode == query.postalcode) 
 								.map( ({lat, lon, display_name }) => ({lat,lon, display_name}))
 
 		return results
