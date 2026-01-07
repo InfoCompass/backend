@@ -112,11 +112,11 @@ export class Nominatim {
 		const result 		= await this.nominatimRequest(params)
 
 		console.log({result})
-		
-		const { lat, lon, displayName } = result
+
+		const { lat, lon, display_name } = result
 
 
-		return { lat, lon, displayName }
+		return { lat, lon, display_name }
 	}
 
 }
