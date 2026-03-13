@@ -42,7 +42,7 @@ export class Nominatim {
 
 	async nominatimRequest(params){
 
-		console.log("Sending request to Nominatim...", JSON.stringify(params))
+		console.log("Sending request to Nominatim...", params)
 
 		const now			= Date.now()
 
@@ -65,10 +65,10 @@ export class Nominatim {
 		const response	= await fetch(url, {headers})
 
 		try {
-			return response.json()	
+			return await response.json()	
 		} catch(cause) {			
 			console.log("Nominatim response:", reponse)
-			throw new Error("Unable to read Nominatim response. Params:" +JSON.stringify(params), {cause}) 
+			throw new Error("Unable to read Nominatim response. Params:" + params, {cause}) 
 		}
 
 		
