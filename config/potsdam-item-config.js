@@ -146,19 +146,26 @@
 		new Property({
 			name: 			"zip",
 			getErrors:		function(value, key){		
-								var min_length = 3,
-									max_length = 10
+								// var min_length = 5,
+								// 	max_length = 5
 
-								if(value.replace(/\s/, '').length < min_length) return {
-									message: 	"Invalid length. Min length for "+ this.name +" is "+min_length+".",
-									code:		"INVALID_LENGTH_MIN"
-								}
+								// if(value.length < min_length) return {
+								// 	message: 	"Invalid length. Min length for "+ this.name +" is "+min_length+".",
+								// 	code:		"INVALID_LENGTH_MIN"
+								// }
 
-								if(value.length > max_length) return {
-									message: 	"Invalid length. Max length for "+ this.name +" is "+max_length+".",
-									code:		"INVALID_LENGTH_MAX"
+								// if(value.length > max_length) return {
+								// 	message: 	"Invalid length. Max length for "+ this.name +" is "+max_length+".",
+								// 	code:		"INVALID_LENGTH_MAX"
+								// }
+
+								if(!value.match(/\d{5}/)) return {
+									message:	"Invalid characters. Only digits allowed for "+ this.name,
+									code:		"DIGITS_REQUIRED"
 								}
-							},	
+							},
+			min:			5,
+			max:			5,					
 			defaultValue:	"",
 			searchable:		true,
 			project:		"location_ref"
@@ -180,7 +187,7 @@
 									code:		"INVALID_LENGTH_MAX"
 								}
 							},	
-			defaultValue:	"Berlin",
+			defaultValue:	"",
 			searchable:		true,
 			project:		"location_ref"
 		}),

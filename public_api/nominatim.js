@@ -59,7 +59,14 @@ export class Nominatim {
 
 		const response	= await fetch(url, {headers})
 
-		return response.json()
+		try {
+			return response.json()	
+		} catch(cause) {			
+			console.log("Nominatim response:", reponse)
+			throw new Error("Unable to read Nominatim response. Params:" +JSON.stringify(params), {cause}) 
+		}
+
+		
 	}
 
 	async getCoordinates(query){
