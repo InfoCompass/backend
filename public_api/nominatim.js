@@ -42,10 +42,12 @@ export class Nominatim {
 
 	async nominatimRequest(params){
 
+		console.log("Sending request to Nominatim...", JSON.stringify(params))
+
 		const now			= Date.now()
 
-
 		if(now-this.lastRequest < 1000){
+			console.log("Nominatim request deferred.")
 			await new Promise( resolve => setTimeout(resolve, 1501) )
 			return await this.nominatimRequest(params)
 		}
@@ -56,6 +58,9 @@ export class Nominatim {
 		const base 			= 'https://nominatim.openstreetmap.org/search'
 		const url			= `${base}?${params}`
 		const headers		= {Referer: this.referer}
+
+
+		console.log("Nominatim request:", {url, headers})
 
 		const response	= await fetch(url, {headers})
 
