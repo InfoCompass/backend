@@ -66,9 +66,9 @@ export class Nominatim {
 
 		try {
 			return await response.json()	
-		} catch(cause) {			
-			console.log("Nominatim response:", response)
-			throw new Error("Unable to read Nominatim response. Params:" + params, {cause}) 
+		} catch(e) {			
+			console.log("Nominatim response:", e, response)
+			throw new Error("Unable to read Nominatim response. Params:" + params, {cause:response}) 
 		}
 
 		
