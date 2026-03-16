@@ -42,11 +42,13 @@ export class Nominatim {
 
 	async nominatimRequest(params){
 
-		console.log("Sending request to Nominatim...", params)
 
 		const now			= Date.now()
+		const diff			= now-this.lastRequest
 
-		if(now-this.lastRequest < 1000){
+		console.log(`Try sending request to Nominatim... [last request: ${this.lastRequest}, now: ${now}, diff: ${diff}]`, params)
+
+		if(diff <= 1500){
 			console.log("Nominatim request deferred.")
 			await new Promise( resolve => setTimeout(resolve, 1501) )
 			return await this.nominatimRequest(params)
