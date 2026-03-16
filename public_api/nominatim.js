@@ -8,7 +8,8 @@ export class Nominatim {
 		this.defaultRestrictions = {
 			city: undefined,					// Requests for different cities will be denied. Ignored if undefined.
 			country :'Germany',					// Will be added to every search
-			state: ['Berlin', 'Brandenburg']	// Will make a specific request for every state. Ignored if undefined.
+			// This is not useful and generate too many requests:
+			//state: ['Berlin', 'Brandenburg']	// Will make a specific request for every state. Ignored if undefined.
 		}
 
 		this.lastRequest	= 	Date.now()-1500 // for throttling requests; at most one request per second
@@ -41,6 +42,8 @@ export class Nominatim {
 	}
 
 	async nominatimRequest(params){
+
+		throw "NOMINATIM DISBALED TEMPORARLY"
 
 
 		const now			= Date.now()
@@ -94,14 +97,13 @@ export class Nominatim {
 									street:			query.street,
 									country:		this.restrictions.country,
 									format:			'jsonv2',
-									addressdetails:	1
+									limit:			1,
+									addressdetails:	0
 								}
 
 		const searchResults = 	(this.restrictions.state || [undefined]).map( async state => {
 
 									const params = new URLSearchParams({...fullQuery, state})
-
-									console.log({params})						
 
 									return await this.nominatimRequest(params)
 									
