@@ -25,8 +25,10 @@ export class Nominatim {
 
 
 
+		/* no longer in use: 
 		if(!this.restrictions.state) 		throw new Error("missing state restrictions")
 		if(!this.restrictions.state.length) throw new Error("missing state restrictions")
+		*/
 
 		if(!this.restrictions.country) 		throw new Error("missing country restrictions")
 
