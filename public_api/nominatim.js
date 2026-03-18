@@ -98,7 +98,7 @@ export class Nominatim {
 									country:		this.restrictions.country,
 									format:			'jsonv2',
 									limit:			1,
-									addressdetails:	0
+									addressdetails:	1
 								}
 
 		const params = new URLSearchParams({...fullQuery })						
