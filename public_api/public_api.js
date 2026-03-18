@@ -27,13 +27,17 @@ const publicApiConfig	=	config.publicApi
 const voiceReaderConfig	=	config.voiceReader
 const translationKeys	=	(({googleTranslateApiKey, deepLApiKey}) => ({googleTranslateApiKey, deepLApiKey}))(config)
 
+if(!config.frontendUrl) 		throw new Error("PublicApi: missing config.frontendUrl.")
+if(!config.nominatimUserAgent) 	throw new Error("PublicApi: missing config.nominatimUserAgent.")	
+
 const nominatim			=	new Nominatim(
 								{
 									city: undefined, 
 									country: 'Germany', 
-									state: ['Berlin', 'Brandenburg']
+									//state: ['Berlin', 'Brandenburg']
 								},
-								config.frontendUrl
+								config.frontendUrl,
+								config.nominatimUserAgent
 							)
 
 const translator		=	new Translator(db, translationKeys)

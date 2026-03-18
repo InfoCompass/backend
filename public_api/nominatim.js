@@ -3,7 +3,7 @@ import fetch from 'node-fetch'
 
 export class Nominatim {
 
-	constructor(restrictions, referer){
+	constructor(restrictions, referer, userAgent){
 
 		this.defaultRestrictions = {
 			city: undefined,					// Requests for different cities will be denied. Ignored if undefined.
@@ -20,9 +20,10 @@ export class Nominatim {
 								}	
 
 		if(!referer) throw new Error("Nominatim.constructor: missing referer.")
-
 		this.referer		= 	referer						
 
+		if(!userAgennt) throw new Error("Nominatim.constructor: missing userAgennt.")
+		this.userAgennt		=	userAgent
 
 
 		/* no longer in use: 
@@ -45,9 +46,6 @@ export class Nominatim {
 
 	async nominatimRequest(params){
 
-		throw "NOMINATIM DISBALED TEMPORARLY"
-
-
 		const now			= Date.now()
 		const diff			= now-this.lastRequest
 
@@ -64,7 +62,7 @@ export class Nominatim {
 
 		const base 			= 'https://nominatim.openstreetmap.org/search'
 		const url			= `${base}?${params}`
-		const headers		= {Referer: this.referer}
+		const headers		= {Referer: this.referer, "User-Agent": this.userAgent}
 
 
 		console.log("Nominatim request:", {url, headers})
