@@ -22,8 +22,8 @@ export class Nominatim {
 		if(!referer) throw new Error("Nominatim.constructor: missing referer.")
 		this.referer		= 	referer						
 
-		if(!userAgennt) throw new Error("Nominatim.constructor: missing userAgennt.")
-		this.userAgennt		=	userAgent
+		if(!userAgent) throw new Error("Nominatim.constructor: missing userAgent.")
+		this.userAgent		=	userAgent
 
 
 		/* no longer in use: 
