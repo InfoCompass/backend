@@ -86,7 +86,7 @@ export class Nominatim {
 		throw Error("bad request")
 	}
 
-	async getCoordinatesFromAddress(query, state = undefined){
+	async getCoordinatesFromAddress(query){
 
 
 		await this.validateRequest(query)
@@ -101,15 +101,11 @@ export class Nominatim {
 									addressdetails:	0
 								}
 
-		const searchResults = 	(this.restrictions.state || [undefined]).map( async state => {
+		const params = new URLSearchParams({...fullQuery })						
 
-									const params = new URLSearchParams({...fullQuery, state})
+		const searchResults = 	this.nominatimRequest(params)
 
-									return await this.nominatimRequest(params)
-									
-								})
-
-		const data 			= 	await Promise.all(searchResults)
+		const data 			= 	await searchResults
 
 		const results 		= 	data.flat()
 								.filter( result => result.address.postcode == query.postalcode) 
