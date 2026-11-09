@@ -174,13 +174,28 @@ if(config.ai){
 																})
 															})
 
-										const text		=	await response.text()
+										const json		=	await response.json()
 
+										const { answer, ...meta} = json
 
-										res.setHeader('Content-Type', 'plain/text; charset=utf-8')
-										res.status(200).send(text)
+										console.log('Dify Api Request response meta:', meta)
 
+										try{
 
+											const dataMatch 	= answer.match(/{(.*)}/s)
+
+											if(!dataMatch) res.status(500).send()
+
+											const rawEntityData = dataMatch[0]
+											const entityData	= JSON.parse(rawEntityData)
+
+											res.setHeader('Content-Type', 'application/json; charset=utf-8')
+											res.status(200).send(JSON.stringify(entityData))
+
+										} catch(e) {
+
+											reset.status(500).send()
+										}
 
 
 									}))
