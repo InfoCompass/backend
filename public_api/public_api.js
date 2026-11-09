@@ -194,7 +194,8 @@ if(config.ai){
 											res.status(200).send(JSON.stringify(entityData))
 
 										} catch(e) {
-											reset.status(500).send()
+											console.log(e)
+											res.status(500).send()
 										}
 
 
