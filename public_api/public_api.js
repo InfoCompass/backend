@@ -154,7 +154,10 @@ if(config.ai){
 
 										const response	=	await fetch(difyApiEndpoint, {
 																method: "POST",
-																body:	JSON.stringiy({
+																header: {
+																	"Authorization" : `Bearer ${difyApiKey}`
+																},
+																body:	JSON.stringify({
 																	inputs,
 																	user: 			platformName,
 																	response_mode: 	"blocking",
