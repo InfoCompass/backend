@@ -172,7 +172,7 @@ if(config.ai){
 																	inputs,
 																	user: 			platformName,
 																	response_mode: 	"blocking",
-																	query:			req.body
+																	query
 																})
 															})
 
