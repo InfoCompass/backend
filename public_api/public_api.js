@@ -27,6 +27,7 @@ const publicApiConfig	=	config.publicApi
 const voiceReaderConfig	=	config.voiceReader
 const translationKeys	=	(({googleTranslateApiKey, deepLApiKey}) => ({googleTranslateApiKey, deepLApiKey}))(config)
 
+
 if(!config.frontendUrl) 		throw new Error("PublicApi: missing config.frontendUrl.")
 if(!config.nominatimUserAgent) 	throw new Error("PublicApi: missing config.nominatimUserAgent.")	
 
@@ -137,16 +138,41 @@ app.get('/geo-guess',				handle( async( req, res) => {
 
 									}))
 
-if(config.ai)
-app.get('/content-to-entry',		handle( async (req,res) => {
+if(config.ai){
 
-										const response 	= await fetch('https://mittendrin.in')
-										const text		= await response.text()
+	const difyApiKey 		= config.difyApiKey
+	const difyApiEndpoint	= config.difyApiEndpoint
+	const jsonSchemaUrl 	= config.ai.jsonSchemaUrl
+	const tagsUrl			= config.ai.tagsUrl
+	const platformName		= config.title
+	const platformUrl		= config.frontendUrl
+
+	app.get('/content-to-entry',	handle( async (req,res) => {
+
+										const inputs	= 	{ jsonSchemaUrl, tagsUrl, platformName, platformUrl }
+
+
+										const response	=	await fetch(difyApiEndpoint, {
+																method: "POST",
+																body:	JSON.stringiy({
+																	inputs,
+																	user: 			platformName,
+																	response_mode: 	"blocking",
+																	query:			"Mein Angebot, ohne Beschreibung. Startet um 15:00 jeden zweiten Dienstag."
+																})
+															})
+
+										const text		=	awaiitresponse.text()
+
 
 										res.setHeader('Content-Type', 'plain/text; charset=utf-8')
 										res.status(200).send(text)
 
+
+
+
 									}))
+}
 
 if(voiceReaderConfig){
 	app.get('/voice-reader/:itemId/html/:lang',		handle( async (req,res)	=> 	res.status(200).send(await voiceReader.getHtmlToRead(req.params.itemId, req.params.lang) )))

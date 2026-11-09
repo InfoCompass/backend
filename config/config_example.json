@@ -23,6 +23,11 @@
                         "password": "--db-password"
                 }
         },
+        "ai":   {
+                "difyApiKey":           "XYZ",
+                "jsonSchemaUrl":        "https://mappo.mittendrin.in/schema",
+                "tagsUrl":              "https://mappo.mittendrin.in/tt/latest",
+        },
         "publicApi":{
                 "port": 3003
         },
