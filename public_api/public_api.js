@@ -9,7 +9,7 @@ import	{ Nominatim					}	from './nominatim.js'
 import	{ Locator					}	from './geo-locator.js'
 import	{ fileURLToPath				}	from 'url'
 
-
+import	fetch							from 'node-fetch'
 import	icUtils							from '../ic-utils.js'
 import	path							from 'path'
 import	bodyParser 						from 'body-parser'
@@ -134,6 +134,17 @@ app.get('/geo-guess',				handle( async( req, res) => {
 													async ()	=> res.status(200).send( await nominatim.getCoordinates(req.query) ),
 													error 		=> res.status(400).send({error: error.message})
 												)
+
+									}))
+
+if(config.ai)
+app.get('/content-to-entry',		handle( async (req,res) => {
+
+										const reponse 	= await fetch('https://mittendrin.in')
+										const text		= await response.text()
+
+										res.setHeader('Content-Type', 'plain/text; charset=utf-8')
+										res.status(200).send(text)
 
 									}))
 
