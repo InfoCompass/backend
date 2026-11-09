@@ -154,10 +154,11 @@ if(config.ai){
 	if(!platformName) 		throw "config.title"
 	if(!platformUrl) 		throw "config.frontendUrl"
 
-	app.post('/content-to-entry',	handle( async (req,res) => {
+	app.post('/content-to-entry',	jsonParser,
+									handle( async (req,res) => {
 
 										const inputs	= 	{ jsonSchemaUrl, tagsUrl, platformName, platformUrl }
-										const query		= 	req.body
+										const query		= 	req.body.text
 
 										console.log({ difyApiEndpoint, difyApiKey, inputs, query, req })
 
