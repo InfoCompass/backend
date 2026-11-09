@@ -157,8 +157,9 @@ if(config.ai){
 	app.post('/content-to-entry',	handle( async (req,res) => {
 
 										const inputs	= 	{ jsonSchemaUrl, tagsUrl, platformName, platformUrl }
+										const query		= 	req.body
 
-										console.log({ difyApiEndpoint, difyApiKey, inputs })
+										console.log({ difyApiEndpoint, difyApiKey, inputs, query })
 
 										const response	=	await fetch( difyApiEndpoint, {
 																method: "POST",
@@ -170,7 +171,7 @@ if(config.ai){
 																	inputs,
 																	user: 			platformName,
 																	response_mode: 	"blocking",
-																	query:			"Mein Angebot, ohne Beschreibung. Startet um 15:00 jeden zweiten Dienstag."
+																	query:			req.body
 																})
 															})
 
@@ -193,7 +194,6 @@ if(config.ai){
 											res.status(200).send(JSON.stringify(entityData))
 
 										} catch(e) {
-
 											reset.status(500).send()
 										}
 
