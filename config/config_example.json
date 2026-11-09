@@ -25,6 +25,7 @@
         },
         "ai":   {
                 "difyApiKey":           "XYZ",
+                "difyApiKey":           "app-uDy7SWSUMNbItw3wG105Xp3E",
                 "jsonSchemaUrl":        "https://mappo.mittendrin.in/schema",
                 "tagsUrl":              "https://mappo.mittendrin.in/tt/latest",
         },

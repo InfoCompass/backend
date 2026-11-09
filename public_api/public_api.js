@@ -151,8 +151,9 @@ if(config.ai){
 
 										const inputs	= 	{ jsonSchemaUrl, tagsUrl, platformName, platformUrl }
 
+										console.log(difyApiEndpoint, inputs)
 
-										const response	=	await fetch(difyApiEndpoint, {
+										const response	=	await fetch( difyApiEndpoint, {
 																method: "POST",
 																header: {
 																	"Authorization" : `Bearer ${difyApiKey}`
@@ -165,7 +166,7 @@ if(config.ai){
 																})
 															})
 
-										const text		=	awaiitresponse.text()
+										const text		=	await response.text()
 
 
 										res.setHeader('Content-Type', 'plain/text; charset=utf-8')
