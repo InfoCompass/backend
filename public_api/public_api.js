@@ -158,7 +158,7 @@ if(config.ai){
 
 										const inputs	= 	{ jsonSchemaUrl, tagsUrl, platformName, platformUrl }
 
-										console.log("DEBUG:", difyApiEndpoint, inputs)
+										console.log({ difyApiEndpoint, difyApiKey, inputs })
 
 										const response	=	await fetch( difyApiEndpoint, {
 																method: "POST",
