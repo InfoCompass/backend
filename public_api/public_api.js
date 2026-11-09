@@ -140,18 +140,25 @@ app.get('/geo-guess',				handle( async( req, res) => {
 
 if(config.ai){
 
-	const difyApiKey 		= config.difyApiKey
-	const difyApiEndpoint	= config.difyApiEndpoint
+	const difyApiKey 		= config.ai.difyApiKey
+	const difyApiEndpoint	= config.ai.difyApiEndpoint
 	const jsonSchemaUrl 	= config.ai.jsonSchemaUrl
 	const tagsUrl			= config.ai.tagsUrl
 	const platformName		= config.title
 	const platformUrl		= config.frontendUrl
 
+	if(!difyApiKey) 		throw "missing config.ai.difyApiKey"
+	if(!difyApiEndpoint) 	throw "missing config.ai.difyApiEndpoint"
+	if(!jsonSchemaUrl) 		throw "config.ai.jsonSchemaUrl"
+	if(!tagsUrl) 			throw "config.ai.tagsUrl"
+	if(!platformName) 		throw "config.title"
+	if(!platformUrl) 		throw "config.frontendUrl"
+
 	app.get('/content-to-entry',	handle( async (req,res) => {
 
 										const inputs	= 	{ jsonSchemaUrl, tagsUrl, platformName, platformUrl }
 
-										console.log(difyApiEndpoint, inputs)
+										console.log("DEBUG:", difyApiEndpoint, inputs)
 
 										const response	=	await fetch( difyApiEndpoint, {
 																method: "POST",

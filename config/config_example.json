@@ -25,9 +25,9 @@
         },
         "ai":   {
                 "difyApiKey":           "XYZ",
-                "difyApiKey":           "app-uDy7SWSUMNbItw3wG105Xp3E",
+                "difyApiEnpoint":       "https://api.dify.ai/v1/chat-messages",
                 "jsonSchemaUrl":        "https://mappo.mittendrin.in/schema",
-                "tagsUrl":              "https://mappo.mittendrin.in/tt/latest",
+                "tagsUrl":              "https://mappo.mittendrin.in/tt/latest"
         },
         "publicApi":{
                 "port": 3003
