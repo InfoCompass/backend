@@ -140,7 +140,7 @@ app.get('/geo-guess',				handle( async( req, res) => {
 if(config.ai)
 app.get('/content-to-entry',		handle( async (req,res) => {
 
-										const reponse 	= await fetch('https://mittendrin.in')
+										const response 	= await fetch('https://mittendrin.in')
 										const text		= await response.text()
 
 										res.setHeader('Content-Type', 'plain/text; charset=utf-8')
