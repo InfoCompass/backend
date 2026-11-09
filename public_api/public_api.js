@@ -163,7 +163,8 @@ if(config.ai){
 										const response	=	await fetch( difyApiEndpoint, {
 																method: "POST",
 																headers: {
-																	"Authorization" : `Bearer ${difyApiKey}`
+																	"Authorization" : `Bearer ${difyApiKey}`,
+																	"Content-Type"	: "application/json"
 																},
 																body:	JSON.stringify({
 																	inputs,
