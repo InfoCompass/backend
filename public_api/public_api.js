@@ -154,7 +154,7 @@ if(config.ai){
 	if(!platformName) 		throw "config.title"
 	if(!platformUrl) 		throw "config.frontendUrl"
 
-	app.get('/content-to-entry',	handle( async (req,res) => {
+	app.post('/content-to-entry',	handle( async (req,res) => {
 
 										const inputs	= 	{ jsonSchemaUrl, tagsUrl, platformName, platformUrl }
 
