@@ -159,7 +159,7 @@ if(config.ai){
 										const inputs	= 	{ jsonSchemaUrl, tagsUrl, platformName, platformUrl }
 										const query		= 	req.body
 
-										console.log({ difyApiEndpoint, difyApiKey, inputs, query })
+										console.log({ difyApiEndpoint, difyApiKey, inputs, query, req })
 
 										const response	=	await fetch( difyApiEndpoint, {
 																method: "POST",
@@ -179,7 +179,7 @@ if(config.ai){
 
 										const { answer, ...meta} = json
 
-										console.log('Dify Api Request response meta:', meta)
+										console.log('Dify Api Request response meta:\n', meta)
 
 										try{
 
