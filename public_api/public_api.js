@@ -160,8 +160,6 @@ if(config.ai){
 										const freeTextData		= 	req.body.text
 										const inputs			= 	{ freeTextData, jsonSchemaUrl, tagsUrl, platformName, platformUrl }
 
-										console.log({ difyApiEndpoint, difyApiKey, inputs, freeTextData, req })
-
 										const response	=	await fetch( difyApiEndpoint, {
 																method: "POST",
 																headers: {
@@ -178,8 +176,6 @@ if(config.ai){
 										const json		=	await response.json()
 
 										const { data, ...meta} = json
-
-										console.log('Dify Api Request response meta:\n', meta)
 
 										try{
 											const { outputs, ...dataMeta } = data
