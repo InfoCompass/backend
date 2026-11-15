@@ -160,7 +160,7 @@ if(config.ai){
 										const inputs			= 	{ jsonSchemaUrl, tagsUrl, platformName, platformUrl }
 										const freeTextData		= 	req.body.text
 
-										console.log({ difyApiEndpoint, difyApiKey, inputs, query, req })
+										console.log({ difyApiEndpoint, difyApiKey, inputs, freeTextData, req })
 
 										const response	=	await fetch( difyApiEndpoint, {
 																method: "POST",
@@ -172,7 +172,6 @@ if(config.ai){
 																	inputs,
 																	user: 			platformName,
 																	response_mode: 	"blocking",
-																	query
 																})
 															})
 
