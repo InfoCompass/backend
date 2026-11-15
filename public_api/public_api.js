@@ -157,8 +157,8 @@ if(config.ai){
 	app.post('/content-to-entry',	jsonParser,
 									handle( async (req,res) => {
 
-										const inputs	= 	{ jsonSchemaUrl, tagsUrl, platformName, platformUrl }
-										const query		= 	req.body.text
+										const inputs			= 	{ jsonSchemaUrl, tagsUrl, platformName, platformUrl }
+										const freeTextData		= 	req.body.text
 
 										console.log({ difyApiEndpoint, difyApiKey, inputs, query, req })
 
@@ -178,17 +178,19 @@ if(config.ai){
 
 										const json		=	await response.json()
 
-										const { answer, ...meta} = json
+										const { data, ...meta} = json
 
 										console.log('Dify Api Request response meta:\n', meta)
 
 										try{
+											const { outputs, ...dataMeta } = data
+											const entry			= outputs.entry
 
-											const dataMatch 	= answer.match(/{(.*)}/s)
+											const entryMatch 	= entry.match(/{(.*)}/s)
 
-											if(!dataMatch) res.status(500).send()
+											if(!entryMatch) res.status(500).send()
 
-											const rawEntityData = dataMatch[0]
+											const rawEntityData = entryMatch[0]
 											const entityData	= JSON.parse(rawEntityData)
 
 											res.setHeader('Content-Type', 'application/json; charset=utf-8')
