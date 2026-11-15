@@ -157,8 +157,8 @@ if(config.ai){
 	app.post('/content-to-entry',	jsonParser,
 									handle( async (req,res) => {
 
-										const inputs			= 	{ jsonSchemaUrl, tagsUrl, platformName, platformUrl }
 										const freeTextData		= 	req.body.text
+										const inputs			= 	{ freeTextData, jsonSchemaUrl, tagsUrl, platformName, platformUrl }
 
 										console.log({ difyApiEndpoint, difyApiKey, inputs, freeTextData, req })
 
