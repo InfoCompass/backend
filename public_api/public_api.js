@@ -144,6 +144,7 @@ if(config.ai){
 	const difyApiEndpoint	= config.ai.difyApiEndpoint
 	const jsonSchemaUrl 	= config.ai.jsonSchemaUrl
 	const tagsUrl			= config.ai.tagsUrl
+	const audience			= config.ai.audience
 	const platformName		= config.title
 	const platformUrl		= config.frontendUrl
 
@@ -158,7 +159,7 @@ if(config.ai){
 									handle( async (req,res) => {
 
 										const freeTextData		= 	req.body.text
-										const inputs			= 	{ freeTextData, jsonSchemaUrl, tagsUrl, platformName, platformUrl }
+										const inputs			= 	{ freeTextData, audience, jsonSchemaUrl, tagsUrl, platformName, platformUrl }
 
 										const response	=	await fetch( difyApiEndpoint, {
 																method: "POST",
