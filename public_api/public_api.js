@@ -155,13 +155,36 @@ if(config.ai){
 	if(!platformName) 		throw "config.title"
 	if(!platformUrl) 		throw "config.frontendUrl"
 
+	app.post('/temp-upload',		handle(async (req, res) => {
+
+										const formData 	= new FormData();
+										const url		= `${difyApiEndpoint}/files/upload`										
+
+										formData.append("file", req.files.file.data)
+										formData.append("user", platformName)
+
+										const response	=	await fetch( url, {
+																method: "POST",
+																headers: {
+																	"Authorization" : `Bearer ${difyApiKey}`,
+																	"Content-Type": "multipart/form-data"
+																},
+																body: formData
+															})
+										const result	=	await response.json()
+
+										res.status(201).send(JSON.stringify(result))
+
+
+									}),
 	app.post('/content-to-entry',	jsonParser,
 									handle( async (req,res) => {
 
-										const freeTextData		= 	req.body.text
-										const inputs			= 	{ freeTextData, audience, jsonSchemaUrl, tagsUrl, platformName, platformUrl }
+										const freeTextData		= req.body.text
+										const inputs			= { freeTextData, audience, jsonSchemaUrl, tagsUrl, platformName, platformUrl }
+										const url				= `${difyApiEndpoint}/workflows/run`
 
-										const response	=	await fetch( difyApiEndpoint, {
+										const response	=	await fetch( url, {
 																method: "POST",
 																headers: {
 																	"Authorization" : `Bearer ${difyApiKey}`,
