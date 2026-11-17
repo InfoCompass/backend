@@ -160,12 +160,10 @@ if(config.ai){
 	app.post('/temp-upload',		multer().single('aifile'),
 									handle( async (req, res) => {
 
-										console.log({FormData})
-
 										const formData 	= new FormData();
 										const url		= `${difyApiEndpoint}/files/upload`										
 
-										formData.append("file", req.file)
+										formData.append("file", req.file.data)
 										formData.append("user", platformName)
 
 
