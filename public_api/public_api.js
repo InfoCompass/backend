@@ -157,15 +157,19 @@ if(config.ai){
 
 	app.post('/temp-upload',		handle(async (req, res) => {
 
+										const formData 	= new FormData();
 										const url		= `${difyApiEndpoint}/files/upload`										
+
+										formData.append("file", req.files.file.data)
+										formData.append("user", platformName)
+
 										const response	=	await fetch( url, {
 																method: "POST",
 																headers: {
 																	"Authorization" : `Bearer ${difyApiKey}`,
 																	"Content-Type": "multipart/form-data"
 																},
-																body:	req, 
-      															duplex:	'half'
+																body: formData
 															})
 										
 										const result	=	await response.json()
@@ -173,7 +177,7 @@ if(config.ai){
 										res.status(201).send(JSON.stringify(result))
 
 
-									})),
+									}),
 	app.post('/content-to-entry',	jsonParser,
 									handle( async (req,res) => {
 
