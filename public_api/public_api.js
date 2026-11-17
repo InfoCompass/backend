@@ -158,10 +158,6 @@ if(config.ai){
 	app.post('/temp-upload',		handle(async (req, res) => {
 
 										const url		= `${difyApiEndpoint}/files/upload`										
-
-										formData.append("file", req.files.file.data)
-										formData.append("user", platformName)
-
 										const response	=	await fetch( url, {
 																method: "POST",
 																headers: {
