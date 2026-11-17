@@ -222,8 +222,12 @@ if(config.ai){
 
 										console.log({json})
 
-
 										const { data, ...meta} = json
+
+										if(!data){
+											res.status(500).send("No data in respose.")
+											return
+										}
 
 										try{
 											const { outputs, ...dataMeta } = data
@@ -231,7 +235,10 @@ if(config.ai){
 
 											const entryMatch 	= entry.match(/{(.*)}/s)
 
-											if(!entryMatch) res.status(500).send()
+											if(!entryMatch){
+												res.status(500).send("No entry in respose.")
+												return
+											}
 
 											const rawEntityData = entryMatch[0]
 											const entityData	= JSON.parse(rawEntityData)
