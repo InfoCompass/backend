@@ -220,6 +220,9 @@ if(config.ai){
 
 										const json		=	await response.json()
 
+										console.log({json})
+
+
 										const { data, ...meta} = json
 
 										try{
