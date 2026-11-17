@@ -157,7 +157,6 @@ if(config.ai){
 
 	app.post('/temp-upload',		handle(async (req, res) => {
 
-										const formData 	= new FormData();
 										const url		= `${difyApiEndpoint}/files/upload`										
 
 										formData.append("file", req.files.file.data)
@@ -169,8 +168,10 @@ if(config.ai){
 																	"Authorization" : `Bearer ${difyApiKey}`,
 																	"Content-Type": "multipart/form-data"
 																},
-																body: formData
+																body:	req, 
+      															duplex:	'half'
 															})
+										
 										const result	=	await response.json()
 
 										res.status(201).send(JSON.stringify(result))
