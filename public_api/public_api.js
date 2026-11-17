@@ -178,7 +178,6 @@ if(config.ai){
 																method: "POST",
 																headers: {
 																	"Authorization" : `Bearer ${difyApiKey}`,
-																	"Content-Type": "multipart/form-data"
 																},
 																body: formData
 															})
