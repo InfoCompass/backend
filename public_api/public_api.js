@@ -165,6 +165,8 @@ if(config.ai){
 										formData.append("file", req.file)
 										formData.append("user", platformName)
 
+										console.log('BEFORE POST', typeof req.file)
+
 										const response	=	await fetch( url, {
 																method: "POST",
 																headers: {
