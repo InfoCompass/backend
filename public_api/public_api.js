@@ -167,8 +167,6 @@ if(config.ai){
 										formData.append("file", req.file.buffer, req.file.originalname)
 										formData.append("user", platformName)
 
-										console.log({formData})
-
 										const response	=	await fetch( url, {
 																method: "POST",
 																headers: {
@@ -178,8 +176,6 @@ if(config.ai){
 															})
 
 										const result	=	await response.json()
-
-										console.log({result})
 
 										res.status(201).send( {id: result.id})
 
@@ -192,7 +188,6 @@ if(config.ai){
 										const doc				= 	req.body.document
 
 										if(!freeTextData && !doc){
-											console.log(req.body)
 											res.status(400).send("missing data")
 											return
 										}
@@ -223,9 +218,10 @@ if(config.ai){
 
 										const json		=	await response.json()
 
-										console.log({json})
 
 										const { data, ...meta} = json
+
+										console.log({json})
 
 										if(json.status && json.status > 299){
 											res.status(json.status).send(json.message)
