@@ -11,7 +11,7 @@ import	{ fileURLToPath				}	from 'url'
 
 import	fetch							from 'node-fetch'
 import	multer							from 'multer'
-import	* as FormData 					from 'form-data'
+import	FormData 						from 'form-data'
 import	icUtils							from '../ic-utils.js'
 import	path							from 'path'
 import	bodyParser 						from 'body-parser'
@@ -160,13 +160,14 @@ if(config.ai){
 	app.post('/temp-upload',		multer().single('aifile'),
 									handle( async (req, res) => {
 
+										console.log({FormData})
+
 										const formData 	= new FormData();
 										const url		= `${difyApiEndpoint}/files/upload`										
 
 										formData.append("file", req.file)
 										formData.append("user", platformName)
 
-										console.log('BEFORE POST', typeof req.file)
 
 										const response	=	await fetch( url, {
 																method: "POST",
