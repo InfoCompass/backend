@@ -184,7 +184,7 @@ if(config.ai){
 
 										const result	=	await response.json()
 
-										res.status(201).send(JSON.stringify(result))
+										res.status(201).send( {id: result.id})
 
 
 									})),
