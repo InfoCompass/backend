@@ -157,7 +157,8 @@ if(config.ai){
 	if(!platformName) 		throw "config.title"
 	if(!platformUrl) 		throw "config.frontendUrl"
 
-	app.post('/temp-upload',		handle( multer().single('file'), async (req, res) => {
+	app.post('/temp-upload',		multer().single('aifile'),
+									handle( async (req, res) => {
 
 										const formData 	= new FormData();
 										const url		= `${difyApiEndpoint}/files/upload`										
