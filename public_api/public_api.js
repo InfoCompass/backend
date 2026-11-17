@@ -161,14 +161,17 @@ if(config.ai){
 									handle( async (req, res) => {
 
 										console.log('#########')
-										console.log(req.file.buffer)
 
 										const formData 	= new FormData();
 										const url		= `${difyApiEndpoint}/files/upload`										
 
 
+										console.log('req.file', req.file)
+
 										formData.append("file", req.file.buffer)
 										formData.append("user", platformName)
+
+										console.log({formData})
 
 
 										const response	=	await fetch( url, {
