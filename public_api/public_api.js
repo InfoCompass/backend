@@ -186,9 +186,24 @@ if(config.ai){
 	app.post('/content-to-entry',	jsonParser,
 									handle( async (req,res) => {
 
-										const freeTextData		= req.body.text
-										const inputs			= { freeTextData, audience, jsonSchemaUrl, tagsUrl, platformName, platformUrl }
-										const url				= `${difyApiEndpoint}/workflows/run`
+										const freeTextData		= 	req.body.text
+										const doc				= 	req.body.document
+
+										if(!freeTextData && !doc){
+											res.status(400).send("missing data")
+											return
+										}
+
+										const inputs			= 	{ 
+																		freeTextData, 
+																		document: doc,
+																		audience, 
+																		jsonSchemaUrl, 
+																		tagsUrl, 
+																		platformName, 
+																		platformUrl 
+																	}
+										const url				= 	`${difyApiEndpoint}/workflows/run`
 
 										const response	=	await fetch( url, {
 																method: "POST",
