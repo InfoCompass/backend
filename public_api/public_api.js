@@ -164,7 +164,7 @@ if(config.ai){
 										const url		= `${difyApiEndpoint}/files/upload`										
 
 
-										formData.append("file", req.file.buffer.toString(), 'temp_'+Date.now())
+										formData.append("file", req.file.buffer, 'temp_'+Date.now())
 										formData.append("user", platformName)
 
 										console.log({formData})
