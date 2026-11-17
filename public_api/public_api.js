@@ -164,7 +164,7 @@ if(config.ai){
 										const url		= `${difyApiEndpoint}/files/upload`										
 
 
-										formData.append("file", req.file.buffer, 'temp_'+Date.now())
+										formData.append("file", req.file.buffer, req.file.originalname)
 										formData.append("user", platformName)
 
 										console.log({formData})
@@ -229,6 +229,7 @@ if(config.ai){
 
 										if(json.status && json.status > 299){
 											res.status(json.status).send(json.message)
+											return
 										}
 
 
@@ -254,9 +255,11 @@ if(config.ai){
 											res.setHeader('Content-Type', 'application/json; charset=utf-8')
 											res.status(200).send(JSON.stringify(entityData))
 
+											return 
+
 										} catch(e) {
 											console.log(e)
-											res.status(500).send()
+											res.status(500).send('Something went wrong...')
 										}
 
 
