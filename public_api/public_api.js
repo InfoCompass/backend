@@ -10,6 +10,8 @@ import	{ Locator					}	from './geo-locator.js'
 import	{ fileURLToPath				}	from 'url'
 
 import	fetch							from 'node-fetch'
+import	multer							from 'multer'
+import	* as FormData 					from 'form-data'
 import	icUtils							from '../ic-utils.js'
 import	path							from 'path'
 import	bodyParser 						from 'body-parser'
@@ -155,12 +157,12 @@ if(config.ai){
 	if(!platformName) 		throw "config.title"
 	if(!platformUrl) 		throw "config.frontendUrl"
 
-	app.post('/temp-upload',		handle(async (req, res) => {
+	app.post('/temp-upload',		handle( multer().single('file'), async (req, res) => {
 
 										const formData 	= new FormData();
 										const url		= `${difyApiEndpoint}/files/upload`										
 
-										formData.append("file", req.files.file.data)
+										formData.append("file", req.file)
 										formData.append("user", platformName)
 
 										const response	=	await fetch( url, {
