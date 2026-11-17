@@ -166,7 +166,7 @@ if(config.ai){
 										const url		= `${difyApiEndpoint}/files/upload`										
 
 
-										formData.append("file", req.file.buffer, 'temp_'+Date.now())
+										formData.append("file", req.file.buffer.toString(), 'temp_'+Date.now())
 										formData.append("user", platformName)
 
 										const response	=	await fetch( url, {
@@ -223,6 +223,11 @@ if(config.ai){
 										console.log({json})
 
 										const { data, ...meta} = json
+
+										if(json.status && json.status > 299){
+											res.status(json.status).send(json.message)
+										}
+
 
 										if(!data){
 											res.status(500).send("No data in respose.")
