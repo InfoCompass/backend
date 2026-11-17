@@ -158,9 +158,7 @@ if(config.ai){
 	if(!platformUrl) 		throw "config.frontendUrl"
 
 	app.post('/temp-upload',		multer().single('aifile'),
-									handle( async (req, res) => {
-
-										console.log('#########')
+									handle( async (req, res) => {										
 
 										const formData 	= new FormData();
 										const url		= `${difyApiEndpoint}/files/upload`										
@@ -168,6 +166,8 @@ if(config.ai){
 
 										formData.append("file", req.file.buffer.toString(), 'temp_'+Date.now())
 										formData.append("user", platformName)
+
+										console.log({formData})
 
 										const response	=	await fetch( url, {
 																method: "POST",
@@ -190,6 +190,7 @@ if(config.ai){
 										const doc				= 	req.body.document
 
 										if(!freeTextData && !doc){
+											console.log(req.body)
 											res.status(400).send("missing data")
 											return
 										}
