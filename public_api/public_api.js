@@ -171,13 +171,13 @@ if(config.ai){
 																},
 																body: formData
 															})
-										
+
 										const result	=	await response.json()
 
 										res.status(201).send(JSON.stringify(result))
 
 
-									}),
+									})),
 	app.post('/content-to-entry',	jsonParser,
 									handle( async (req,res) => {
 
