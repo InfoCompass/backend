@@ -180,7 +180,7 @@ if(config.ai){
 										console.log({result})
 
 
-										res.status(201).send( {id: result.id})
+										res.status(201).send( {id: result.id, mime_type: result.mime_type})
 
 
 									})),
